@@ -5,7 +5,7 @@ public class Main {
     }
     private boolean besuchen(int kn)
     {
-       //pain
+       //pain in the leg
         return false;
     }
 }
