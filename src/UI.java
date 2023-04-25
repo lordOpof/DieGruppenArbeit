@@ -4,6 +4,8 @@ import java.awt.*;
 
 public class UI extends JFrame {
 	public Panel p;
+int[][] arr = Main.arrayTest;
+GridBagConstraints gbc;
 
 	UI(int width, int height) {
 		p = new Panel();
@@ -17,9 +19,17 @@ public class UI extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+
+			 gbc = new GridBagConstraints();
+    gbc.gridx = colIndex;
+    gbc.gridy = rowIndex;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.weightx = 1.0;
+    gbc.weighty = 1.0;
+    gbc.insets = new Insets(0, 0, 0, 0);
 	}
 
-	public void updateGrid(int[][] arr) {
+	public void updateGrid() {
 
 		p.removeAll();
 		int row = arr.length;
@@ -28,7 +38,33 @@ public class UI extends JFrame {
 		for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
 				JPanel cell = new JPanel();
-				Color color = switch (arr[y][x]) { // color enhanced switch
+				color=colorAtPos(x,y);
+				cell.setBackground(color);
+				if (color != Color.white)
+					cell.setBorder(BorderFactory.createLineBorder(Color.red));
+				else
+					cell.setBorder(BorderFactory.createLineBorder(Color.white));
+				p.add(cell);
+			}
+		}
+		p.revalidate();
+		p.repaint();
+	}
+public void updateAtPos(int row, int col) {
+    Component comp = p.getComponentAt(col, row);
+    p.remove(comp);
+
+				JPanel cell = new JPanel();
+
+    cell.setBackground(colorAtPos(col,row); //NOTE: inout color not only yellow
+    
+    p.add(cell, gbc);
+    
+    p.revalidate();
+    p.repaint();
+}
+private Color colorAtPos(int x, int y){
+return switch (arr[y][x]) { // color enhanced switch
 					case 1 -> Color.red;
 					case 2 -> Color.black;
 					case 3 -> Color.GREEN;
@@ -41,18 +77,7 @@ public class UI extends JFrame {
 					case 10 -> Color.orange;
 					default -> Color.white;
 				};
-				cell.setBackground(color);
-				if (color != Color.white)
-					cell.setBorder(BorderFactory.createLineBorder(Color.red));
-				else
-					cell.setBorder(BorderFactory.createLineBorder(Color.white));
-				p.add(cell);
-			}
-		}
-		p.revalidate();
-		p.repaint();
-	}
-
+}
 
 	/*public void cube(int _x, int _y, int _w, int _h) {
 		Cube x =new Cube(_x, _y, _w, _h);
