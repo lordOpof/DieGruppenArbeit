@@ -62,7 +62,7 @@ public class Main extends JFrame {
 		});
 		add2sim.start();
 	}
-
+//NOTE:integrate visual update into updatePos()
 	private void updatePos() {
 
 		for (int y = 0; y < row; y++) {
