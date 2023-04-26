@@ -7,17 +7,17 @@ public class UI extends JFrame implements ModLis {
 	int row, col;
 	GridBagConstraints gbc;
 	LayoutManager glo;
-	Model m;
+
 
 	UI() {
 	}
 
 	public void setup() {
-		
+
 		p = new Panel();
 		p.setVisible(true);
-		System.out.println(row+" "+col);
-		p.setPreferredSize(new Dimension(500,500));
+		System.out.println(row + " " + col);
+		p.setPreferredSize(new Dimension(500, 500));
 		glo = new GridLayout(row, col, 0, 0);
 		p.setLayout(glo);
 
@@ -28,8 +28,6 @@ public class UI extends JFrame implements ModLis {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 
-		
-		
 
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
@@ -48,7 +46,7 @@ public class UI extends JFrame implements ModLis {
 		for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
 				JPanel cell = new JPanel();
-				Color color = colorAtPos(x, y);
+				Color color = colorAtPos(y, x);
 				cell.setBackground(color);
 				p.add(cell);
 			}
@@ -57,52 +55,56 @@ public class UI extends JFrame implements ModLis {
 		p.repaint();
 	}
 
-	public void updateAtPos(int[] coords) {
+	public void updateAround(int[] coords) {
 		int _y = coords[0];
 		int _x = coords[1];
-		System.out.println("yay?/ "+coords[0]);
+		System.out.println("yay?/ _y:" + coords[0]);
 		for (int y = _y - 1; y <= _y + 1; y++) {
 			for (int x = _x - 1; x <= _x + 1; x++) {
-				System.out.println("y?/ "+y+" x?/ "+x);
-				if(0<=x&&x<col&&0<=y&&y<row){
-					JPanel cell = new JPanel();
-					cell.setBackground(colorAtPos(y, x));// mazbe colorAtPos is at fault, giving wrong color info
-
-					gbc.gridx = x;
-					gbc.gridy = y;
-					System.out.println("y:"+p.getComponentAt(x, y).getY()+" x:"+p.getComponentAt(x, y).getX());
-					p.remove(p.getComponentAt(x, y));
-					p.add(cell);//removed gdc
-					p.revalidate();
-					p.repaint();
-				} else System.out.println("fuck/ _x:"+_x+" _y:"+_y+"x:"+x+" col:"+col+" y:"+y+" row:"+row);
+				updateAtPos(y,x);
 			}
 		}
-		p.revalidate();
-		p.repaint();
+	}
+
+	public void updateAtPos(int y, int x) {
+		Component[] components = p.getComponents();
+		int index = y * col + x;
+		if (index >= 0 && index < components.length) {
+			JPanel cell = (JPanel) components[index];
+			cell.setBackground(colorAtPos(y,x));
+		}
 	}
 
 	private Color colorAtPos(int y, int x) {
-		
-		return switch (arr[y][x]) { // color enhanced switch
-			case 1 -> Color.red;
-			case 2 -> Color.black;
-			case 3 -> Color.GREEN;
-			case 4 -> Color.gray;
-			case 5 -> Color.BLUE;
-			case 6 -> Color.CYAN;
-			case 7 -> Color.MAGENTA;
-			case 8 -> Color.PINK;
-			case 9 -> Color.yellow;
-			case 10 -> Color.orange;
-			default -> Color.white;
-		};
+
+		try {
+			return switch (arr[y][x]) { // color enhanced switch
+				case 1 -> Color.red;
+				case 2 -> Color.black;
+				case 3 -> Color.GREEN;
+				case 4 -> Color.gray;
+				case 5 -> Color.BLUE;
+				case 6 -> Color.CYAN;
+				case 7 -> Color.MAGENTA;
+				case 8 -> Color.PINK;
+				case 9 -> Color.yellow;
+				case 10 -> Color.orange;
+				default -> Color.white;
+			};
+		}catch(Exception e){
+			System.out.println("color search out of bounds");
+			return Color.white;
+		}
 	}
 
 	public void onValChange(Model m) {
-		updateAtPos(m.getTmpYX());
-		// arr = m.getarraytest;
-		// updateGrid();//TODO:compare and only update with updateAtPos
+		updateAround(m.getTmpYX());
+		// TODO: fine tune for a good speed
+		try {
+			Thread.sleep(41);
+		} catch (InterruptedException e) {
+			System.out.println("couldn't sleep");
+		}
 	}
 
 	public void setRoCo() {

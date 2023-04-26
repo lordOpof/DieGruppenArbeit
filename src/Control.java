@@ -10,7 +10,8 @@ public class Control {
         ui.setRoCo();
         ui.setup();
         m.populateArr();
-        m.arrayTest[0][0]=1;
+        ui.updateGrid();
+        /*m.arrayTest[0][0]=1;
         m.printArr();
         ui.updateGrid();
         try {
@@ -20,7 +21,8 @@ public class Control {
             e.printStackTrace();
         }
         m.add2simMeth(3, 4);
-        m.printArr();
-        //m.circler();
+        ui.updateAtPos(3,4);
+        m.printArr();*/
+        m.circler();
     }
 }

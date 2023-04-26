@@ -9,7 +9,7 @@ public class Model extends JFrame {
     Random rng = new Random();
     public int[][] arrayTest;
     int[] tmpYX = new int[2];
-    public UI ui;
+
     public int col, row;
     private ArrayList<ModLis> subs = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class Model extends JFrame {
                 arrayTest[0][col / 2] = rng.nextInt(11);
                 notifySubs();
                 try {
-                    TimeUnit.MILLISECONDS.sleep(5000);
+                    TimeUnit.MILLISECONDS.sleep(100);
                 } catch (InterruptedException ignored) {
                 }
                 tr = true;
@@ -49,16 +49,14 @@ public class Model extends JFrame {
 			}
             System.out.println();
 		}
+        System.out.println();System.out.println();
     }
     public void add2simMeth(int y, int x){
         arrayTest[y][x] = rng.nextInt(11);
         tmpYX[0]=y;
         tmpYX[1]=x;
+        printArr();
         notifySubs();
-    }
-
-    public int retArrVal(int y, int x) {
-        return arrayTest[y][x];
     }
 
     public void updatePos() {
@@ -126,11 +124,6 @@ public class Model extends JFrame {
                     }
                 }
             }
-        }
-        // TODO: fine tune for a good speed
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
         }
     }
 
