@@ -131,7 +131,7 @@ public class Model extends JFrame {
         for (int y = 0; y < row; y++) {
             Arrays.fill(arrayTest[y], 0);
         }
-
+printArr();
     }
 
     public int[][] getArrayTest() {

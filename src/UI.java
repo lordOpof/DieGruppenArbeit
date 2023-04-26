@@ -12,12 +12,12 @@ public class UI extends JFrame implements ModLis {
 	UI() {
 	}
 
-	public void setup() {
+	public void setup(int width, int heigth) {
 
 		p = new Panel();
 		p.setVisible(true);
 		System.out.println(row + " " + col);
-		p.setPreferredSize(new Dimension(500, 500));
+		p.setPreferredSize(new Dimension(width*10, heigth*10));
 		glo = new GridLayout(row, col, 0, 0);
 		p.setLayout(glo);
 
@@ -58,7 +58,6 @@ public class UI extends JFrame implements ModLis {
 	public void updateAround(int[] coords) {
 		int _y = coords[0];
 		int _x = coords[1];
-		System.out.println("yay?/ _y:" + coords[0]);
 		for (int y = _y - 1; y <= _y + 1; y++) {
 			for (int x = _x - 1; x <= _x + 1; x++) {
 				updateAtPos(y,x);
@@ -72,6 +71,7 @@ public class UI extends JFrame implements ModLis {
 		if (index >= 0 && index < components.length) {
 			JPanel cell = (JPanel) components[index];
 			cell.setBackground(colorAtPos(y,x));
+			System.out.println("Updateed!");
 		}
 	}
 

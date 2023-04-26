@@ -8,7 +8,7 @@ public class Control {
         m.addSub(ui);
         ui.setArr(m.getArrayTest());
         ui.setRoCo();
-        ui.setup();
+        ui.setup(m.col, m.row);
         m.populateArr();
         ui.updateGrid();
         /*m.arrayTest[0][0]=1;
