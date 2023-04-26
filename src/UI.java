@@ -1,48 +1,55 @@
 import javax.swing.*;
 import java.awt.*;
 
-
-public class UI extends JFrame {
+public class UI extends JFrame implements ModLis {
 	public Panel p;
 	int[][] arr;
+	int row, col;
 	GridBagConstraints gbc;
+	LayoutManager glo;
+	Model m;
 
-	UI(int width, int height, int[][] arrayTest) {
-		arr = arrayTest;
+	UI() {
+	}
+
+	public void setup() {
+		
 		p = new Panel();
 		p.setVisible(true);
-		p.setPreferredSize(new Dimension(width, height));
+		System.out.println(row+" "+col);
+		p.setPreferredSize(new Dimension(500,500));
+		glo = new GridLayout(row, col, 0, 0);
+		p.setLayout(glo);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(new GridLayout());
-
+		this.setLayout(glo);
 		this.add(p);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 
+		
+		
+
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
 		gbc.insets = new Insets(0, 0, 0, 0);
 	}
 
-	public void updateGrid() {
+	public void setArr(int[][] _arr) {
+		arr = _arr;
+	}
 
+	public void updateGrid() {
+		p.setLayout(glo);
 		p.removeAll();
-		int row = arr.length;
-		int col = arr[0].length;
-		p.setLayout(new GridLayout(row, col));
 		for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
 				JPanel cell = new JPanel();
 				Color color = colorAtPos(x, y);
 				cell.setBackground(color);
-				if (color != Color.white)
-					cell.setBorder(BorderFactory.createLineBorder(Color.red));
-				else
-					cell.setBorder(BorderFactory.createLineBorder(Color.white));
 				p.add(cell);
 			}
 		}
@@ -50,23 +57,33 @@ public class UI extends JFrame {
 		p.repaint();
 	}
 
-	public void updateAtPos(int row, int col) {
-		/*Component comp = p.getComponentAt(col, row);
-		p.remove(comp);*/
+	public void updateAtPos(int[] coords) {
+		int _y = coords[0];
+		int _x = coords[1];
+		System.out.println("yay?/ "+coords[0]);
+		for (int y = _y - 1; y <= _y + 1; y++) {
+			for (int x = _x - 1; x <= _x + 1; x++) {
+				System.out.println("y?/ "+y+" x?/ "+x);
+				if(0<=x&&x<col&&0<=y&&y<row){
+					JPanel cell = new JPanel();
+					cell.setBackground(colorAtPos(y, x));// mazbe colorAtPos is at fault, giving wrong color info
 
-		JPanel cell = new JPanel();
-
-		cell.setBackground(colorAtPos(col, row));
-
-		gbc.gridx = col;
-		gbc.gridy = row;
-		p.add(cell, gbc);
-
+					gbc.gridx = x;
+					gbc.gridy = y;
+					System.out.println("y:"+p.getComponentAt(x, y).getY()+" x:"+p.getComponentAt(x, y).getX());
+					p.remove(p.getComponentAt(x, y));
+					p.add(cell);//removed gdc
+					p.revalidate();
+					p.repaint();
+				} else System.out.println("fuck/ _x:"+_x+" _y:"+_y+"x:"+x+" col:"+col+" y:"+y+" row:"+row);
+			}
+		}
 		p.revalidate();
-		//p.repaint();
+		p.repaint();
 	}
 
-	private Color colorAtPos(int x, int y) {
+	private Color colorAtPos(int y, int x) {
+		
 		return switch (arr[y][x]) { // color enhanced switch
 			case 1 -> Color.red;
 			case 2 -> Color.black;
@@ -82,9 +99,14 @@ public class UI extends JFrame {
 		};
 	}
 
-	/*public void cube(int _x, int _y, int _w, int _h) {
-		Cube x =new Cube(_x, _y, _w, _h);
-		x.setVisible(true);
-		x.g2d.fillRect(_x, _y, _w, _h);
-	}*/
+	public void onValChange(Model m) {
+		updateAtPos(m.getTmpYX());
+		// arr = m.getarraytest;
+		// updateGrid();//TODO:compare and only update with updateAtPos
+	}
+
+	public void setRoCo() {
+		row = arr.length;
+		col = arr[0].length;
+	}
 }

@@ -3,24 +3,31 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JFrame {
+public class Main{
+/*
 	Random rng = new Random();
 	int xWidth = 10;
 	int yWidth = 10;
-	public int[][] arrayTest = new int[yWidth][xWidth];
+	//TODO: WTF????? 10 gros aber 100 in ui wahrend array klein, das scheint mir wie das problem WTF
+	public int[][] arrayTest;
 	public UI ui;
 	public int col = arrayTest[0].length;
 	public int row = arrayTest.length;
+*/
+
 
 	public static void main(String[] args) {
-		Main m = new Main();
-		m.main2();
+		Model m =new Model(10, 10);
+		UI ui = new UI();
+		Control controller = new Control(m, ui);
 	}
-
+/* 
 	private void main2() {
+		arrayTest = new int[yWidth][xWidth];
 		populateArr();
-		ui = new UI(arrayTest[0].length*100, arrayTest.length*100, arrayTest);
+		ui = new UI(arrayTest[0].length*10, arrayTest.length*10, arrayTest);
 		circler();
+		
 	}
 
 
@@ -42,11 +49,11 @@ public class Main extends JFrame {
 			}
 		});
 		refresh.start();*/
-
+/* 
 		Thread add2sim = new Thread(() -> {
 			boolean tr = true;
 			while (tr) {
-				arrayTest[0][5/*rng.nextInt(xWidth)*/] = rng.nextInt(11);
+				arrayTest[0][5] = rng.nextInt(11);
 				try {
 					TimeUnit.MILLISECONDS.sleep(100);
 				} catch (InterruptedException ignored) {
@@ -55,6 +62,9 @@ public class Main extends JFrame {
 			}
 		});
 		add2sim.start();
+	}
+	public int retArrVal(int y, int x){
+	return arrayTest[y][x];
 	}
 //TODO:integrate visual update into updatePos()
 	private void updatePos() {
@@ -118,15 +128,25 @@ public class Main extends JFrame {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException ignored) {
 			}*/
+			/* 
 		}
 	}
 
 	private void populateArr(){
 		for (int y = 0; y < row; y++) {
 			Arrays.fill(arrayTest[y], 0);
+			for(int x =0;x<col;x++){
+				System.out.print(arrayTest[y][x]);
+			}
+			System.out.println();
 		}
+		
 	}
 	public int[][] getArrayTest(){
 		return arrayTest;
 	}
+	public void whiteSpace(){
+		ui.fillSpace();
+	}
+*/
 }
