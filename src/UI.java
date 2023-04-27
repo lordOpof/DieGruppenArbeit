@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UI extends JFrame implements ModLis {
+	//schuler war hier
 	public Panel p;
 	int[][] arr;
 	int row, col;
@@ -71,7 +72,6 @@ public class UI extends JFrame implements ModLis {
 		if (index >= 0 && index < components.length) {
 			JPanel cell = (JPanel) components[index];
 			cell.setBackground(colorAtPos(y,x));
-			System.out.println("Updateed!");
 		}
 	}
 
