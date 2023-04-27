@@ -29,6 +29,7 @@ public class Model extends JFrame {
         updateLoop.start();
 
         Thread add2sim = new Thread(() -> {
+            //TODO: sand sandind machen
             boolean tr = true;
             while (tr) {
                 arrayTest[0][col / 2] = rng.nextInt(11);
@@ -42,6 +43,24 @@ public class Model extends JFrame {
         });
         add2sim.start();
     }
+    
+    public void adamSandler() {
+        Thread sandler = new Thread(() -> {
+            //TODO: sand sandind machen
+            int i = 0;
+            while (i!=10) {
+                arrayTest[0][col / 2] = rng.nextInt(4)+1;
+                notifySubs();
+                try {
+                    TimeUnit.MILLISECONDS.sleep(300);
+                } catch (InterruptedException ignored) {
+                }
+                i++;
+            }
+        });
+        sandler.start();
+    }
+
     public void printArr(){
         for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
@@ -51,6 +70,7 @@ public class Model extends JFrame {
 		}
         System.out.println();System.out.println();
     }
+    
     public void add2simMeth(int y, int x){
         arrayTest[y][x] = rng.nextInt(11);
         tmpYX[0]=y;

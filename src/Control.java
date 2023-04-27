@@ -22,7 +22,8 @@ public class Control {
         }
         m.add2simMeth(3, 4);
         ui.updateAtPos(3,4);
-        m.printArr();*/
+        */
+        m.printArr();
         m.circler();
     }
 }
