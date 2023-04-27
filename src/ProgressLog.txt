@@ -1,2 +1,2 @@
 am 25.4.23 Oskar bis 3:30 gearbeitet am vorläufigen system welches per Array und JPanel cells die inhalte anzeigt und aktualisiert
-und davor natürlich gitHub repository eingerichtet zum teilen, und beim einrichten von intellij nen bisschen
+und davor natürlich gitHub repository eingerichtet zum Teilen, und beim Einrichten von intellij nen bisschen

@@ -8,7 +8,6 @@ public class UI extends JFrame implements ModLis {
 	int row, col;
 	GridBagConstraints gbc;
 	LayoutManager glo;
-	Color[] colors = { Color.white, new Color(186, 158, 91) };
 public JPanel p;
 	UI() {
 	}
