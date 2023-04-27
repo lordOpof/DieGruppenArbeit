@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UI extends JFrame implements ModLis {
+	//schuler war hier
 	public Panel p;
 	int[][] arr;
 	int row, col;
