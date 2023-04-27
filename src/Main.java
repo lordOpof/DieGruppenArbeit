@@ -19,7 +19,8 @@ public class Main{
 	public static void main(String[] args) {
 		Model m =new Model(10, 10);//TODO:aahhhh 100 muss 100 groß machen
 		UI ui = new UI();
-		Control controller = new Control(m, ui);
+		ViewCanvas vc = new ViewCanvas();
+		Control controller = new Control(m, ui, vc);
 	}
 /* 
 	private void main2() {

@@ -28,7 +28,7 @@ public class Model extends JFrame {
         });
         updateLoop.start();
 
-        Thread add2sim = new Thread(() -> {
+        Thread add2simThread = new Thread(() -> {
             //TODO: sand sandind machen
             boolean tr = true;
             while (tr) {
@@ -41,7 +41,7 @@ public class Model extends JFrame {
                 tr = true;
             }
         });
-        add2sim.start();
+        add2simThread.start();
     }
     
     public void adamSandler() {
@@ -71,7 +71,7 @@ public class Model extends JFrame {
         System.out.println();System.out.println();
     }
     
-    public void add2simMeth(int y, int x){
+    public void add2sim(int y, int x){
         arrayTest[y][x] = rng.nextInt(11);
         tmpYX[0]=y;
         tmpYX[1]=x;
@@ -81,7 +81,7 @@ public class Model extends JFrame {
 
     public void updatePos() {
 
-        for (int y =0; y < row; y++ ) {
+        for (int y = row-1; y >=0; y--) {
             for (int x = 0; x < col; x++) {
                 if (arrayTest[y][x] != 0) {
                     if (y + 1 < row) {
