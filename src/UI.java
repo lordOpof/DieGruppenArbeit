@@ -71,7 +71,6 @@ public class UI extends JFrame implements ModLis {
 		if (index >= 0 && index < components.length) {
 			JPanel cell = (JPanel) components[index];
 			cell.setBackground(colorAtPos(y,x));
-			System.out.println("Updateed!");
 		}
 	}
 
