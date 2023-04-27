@@ -2,33 +2,31 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UI extends JFrame implements ModLis {
-	//schuler war hier
-	public Panel p;
+	// schuler war hier
+	
 	int[][] arr;
 	int row, col;
 	GridBagConstraints gbc;
 	LayoutManager glo;
-	Color[] colors = {Color.white, new Color(186,158,91)};
-
+	Color[] colors = { Color.white, new Color(186, 158, 91) };
+public JPanel p;
 	UI() {
 	}
 
 	public void setup(int width, int heigth) {
+		col=width;
+		row=heigth;
+		setTitle("My Grid");
+        setSize(row*10, col*10);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		p = new Panel();
-		p.setVisible(true);
-		System.out.println(row + " " + col);
-		p.setPreferredSize(new Dimension(width*10, heigth*10));
-		glo = new GridLayout(row, col, 0, 0);
-		p.setLayout(glo);
+        p = new JPanel(new GridLayout(row, col));
 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(glo);
-		this.add(p);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+        updateGrid();
+        
 
+        add(p);
+        setVisible(true);
 
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
@@ -42,13 +40,11 @@ public class UI extends JFrame implements ModLis {
 	}
 
 	public void updateGrid() {
-		p.setLayout(glo);
 		p.removeAll();
 		for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
 				JPanel cell = new JPanel();
-				Color color = colorAtPos(y, x);
-				cell.setBackground(color);
+				cell.setBackground(colorAtPos(y, x));
 				p.add(cell);
 			}
 		}
@@ -61,7 +57,7 @@ public class UI extends JFrame implements ModLis {
 		int _x = coords[1];
 		for (int y = _y - 1; y <= _y + 1; y++) {
 			for (int x = _x - 1; x <= _x + 1; x++) {
-				updateAtPos(y,x);
+				updateAtPos(y, x);
 			}
 		}
 	}
@@ -71,7 +67,7 @@ public class UI extends JFrame implements ModLis {
 		int index = y * col + x;
 		if (index >= 0 && index < components.length) {
 			JPanel cell = (JPanel) components[index];
-			cell.setBackground(colorAtPos(y,x));
+			cell.setBackground(colorAtPos(y, x));
 		}
 	}
 
@@ -91,7 +87,7 @@ public class UI extends JFrame implements ModLis {
 				case 10 -> Color.orange;
 				default -> Color.white;
 			};
-		}catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("color search out of bounds");
 			return Color.white;
 		}
@@ -105,10 +101,5 @@ public class UI extends JFrame implements ModLis {
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
-	}
-
-	public void setRoCo() {
-		row = arr.length;
-		col = arr[0].length;
 	}
 }
