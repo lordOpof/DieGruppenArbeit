@@ -32,7 +32,7 @@ public class Model extends JFrame {
             //TODO: sand sandind machen
             boolean tr = true;
             while (tr) {
-                arrayTest[0][col / 2] = rng.nextInt(11);
+                arrayTest[0][col / 2] = rng.nextInt(10)+1;
                 notifySubs();
                 try {
                     TimeUnit.MILLISECONDS.sleep(100);

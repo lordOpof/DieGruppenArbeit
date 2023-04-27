@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UI extends JFrame implements ModLis {
+	//schuler war hier
 	public Panel p;
 	int[][] arr;
 	int row, col;
 	GridBagConstraints gbc;
 	LayoutManager glo;
-	Color[] colors = {Color.white, new Color(186,158,91)}
+	Color[] colors = {Color.white, new Color(186,158,91)};
 
 	UI() {
 	}
@@ -71,7 +72,6 @@ public class UI extends JFrame implements ModLis {
 		if (index >= 0 && index < components.length) {
 			JPanel cell = (JPanel) components[index];
 			cell.setBackground(colorAtPos(y,x));
-			System.out.println("Updateed!:"+index);
 		}
 	}
 
