@@ -35,7 +35,7 @@ public class Model extends JFrame {
                 arrayTest[0][col / 2] = rng.nextInt(10)+1;
                 notifySubs();
                 try {
-                    TimeUnit.MILLISECONDS.sleep(100);
+                    TimeUnit.MILLISECONDS.sleep(1000);
                 } catch (InterruptedException ignored) {
                 }
                 tr = true;

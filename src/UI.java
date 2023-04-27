@@ -17,10 +17,10 @@ public JPanel p;
 		col=width;
 		row=heigth;
 		setTitle("My Grid");
-        setSize(500, 500);
+        setSize(row*10, col*10);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        p = new JPanel(new GridLayout(10, 10));
+        p = new JPanel(new GridLayout(row, col));
 
         updateGrid();
         
