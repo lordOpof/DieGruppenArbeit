@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -14,8 +15,15 @@ public class Model extends JFrame {
 	private ArrayList<ModLis> subs = new ArrayList<>();
 
 	public Model(int _row, int _col) {
-
 		arrayTest = new int[_row][_col];
+		col = arrayTest[0].length; // NOTE: col = _col; is more optimal
+		row = arrayTest.length;
+	}
+	public Model() {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int widthDisplay = gd.getDisplayMode().getWidth();
+		int heightDisplay = gd.getDisplayMode().getHeight();
+		arrayTest = new int[heightDisplay/5][widthDisplay/5];
 		col = arrayTest[0].length; // NOTE: col = _col; is more optimal
 		row = arrayTest.length;
 	}
@@ -44,7 +52,7 @@ public class Model extends JFrame {
 		add2simThread.start();
 	}
 
-	public void adamSandler() {
+	public void adamSandler() {  //TODO:needs renaming
 		Thread sandler = new Thread(() -> {
 			//TODO: sand sandind machen
 			int i = 0;
@@ -92,7 +100,7 @@ public class Model extends JFrame {
 							tmpYX[0] = y;
 							tmpYX[1] = x;
 
-							notifySubs();
+							//notifySubs();
 						}
 					}
 
@@ -104,7 +112,7 @@ public class Model extends JFrame {
 									arrayTest[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
-									notifySubs();
+									//notifySubs();
 								}
 							} catch (Exception e) {
 								try {
@@ -113,7 +121,7 @@ public class Model extends JFrame {
 										arrayTest[y][x] = 0;
 										tmpYX[0] = y;
 										tmpYX[1] = x;
-										notifySubs();
+										//notifySubs();
 									}
 								} catch (Exception ignored) {
 								}
@@ -126,7 +134,7 @@ public class Model extends JFrame {
 									arrayTest[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
-									notifySubs();
+									//notifySubs();
 								}
 							} catch (Exception e) {
 								try {
@@ -136,7 +144,7 @@ public class Model extends JFrame {
 										arrayTest[y][x] = 0;
 										tmpYX[0] = y;
 										tmpYX[1] = x;
-										notifySubs();
+										//notifySubs();
 									}
 								} catch (Exception ignored) {
 								}
@@ -146,6 +154,7 @@ public class Model extends JFrame {
 				}
 			}
 		}
+		notifySubs();
 	}
 
 	public void populateArr() {

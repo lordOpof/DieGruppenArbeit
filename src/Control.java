@@ -8,10 +8,10 @@ public class Control extends JFrame {
 		m = _m;
 		ui = _ui;
 		m.addSub(ui);
+		m.populateArr();
 		ui.setArr(m.getArrayTest());
 		ui.setup(m.col, m.row);
-		m.populateArr();
-		ui.updateGrid();
+		System.out.println("startet circling");
 		m.circler();
 	}
 

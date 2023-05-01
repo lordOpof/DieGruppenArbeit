@@ -1,44 +1,51 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class UI extends JFrame implements ModLis {
 	// schuler war hier
-	
+
 	int[][] arr;
 	int row, col;
+	Component[] components;
 	GridBagConstraints gbc;
-	LayoutManager glo;
-public JPanel p;
+	public JPanel p;
+
 	UI() {
 	}
 
 	public void setup(int width, int heigth) {
-		col=width;
-		row=heigth;
-		setTitle("My Grid");
-        setSize(row*10, col*10);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		col = width;
+		row = heigth;
 
-        p = new JPanel(new GridLayout(row, col));
 
-        updateGrid();
-        
+		setTitle("Title");
+		setSize(col*7,row*7);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        add(p);
-        setVisible(true);
+
+		p = new JPanel(new GridLayout(row, col));
+		System.out.println(p.getComponents().length);
+		initGrid();
+		components = p.getComponents();
+		System.out.println(p.getComponents().length);
+		add(p);
+		setVisible(true);
 
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		gbc.insets = new Insets(0, 0, 0, 0);
+
+
 	}
 
 	public void setArr(int[][] _arr) {
 		arr = _arr;
 	}
 
-	public void updateGrid() {
+	public void initGrid() {
 		p.removeAll();
 		for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
@@ -49,6 +56,47 @@ public JPanel p;
 		}
 		p.revalidate();
 		p.repaint();
+	}
+
+	public void updateGrid() {
+
+		for (int y = 0; y < row; y++) {
+			for (int x = 0; x < col; x++) {
+				/*JPanel cell = new JPanel();
+				cell.setBackground(colorAtPos(y, x));
+				p.add(cell);*/
+				updateAtPos(y, x);
+
+			}
+		}
+		/*Thread t1 = new Thread(() -> {
+			for (int y = 0; y < row/2; y++) {
+				for (int x = 0; x < col; x++) {
+					updateAtPos(y,x);
+				}
+			}
+		});
+		Thread t2 = new Thread(() -> {
+			for (int y = row/2; y < row; y++) {
+				for (int x = 0; x < col; x++) {
+					updateAtPos(y,x);
+				}
+			}
+		});
+
+		t1.start();
+		t2.start();
+
+		try {
+			t1.join();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		try {
+			t2.join();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}*/
 	}
 
 	public void updateAround(int[] coords) {
@@ -62,7 +110,7 @@ public JPanel p;
 	}
 
 	public void updateAtPos(int y, int x) {
-		Component[] components = p.getComponents();
+
 		int index = y * col + x;
 		if (index >= 0 && index < components.length) {
 			JPanel cell = (JPanel) components[index];
@@ -93,7 +141,14 @@ public JPanel p;
 	}
 
 	public void onValChange(Model m) {
-		updateAround(m.getTmpYX());
+		//Thread uiUpdate = new Thread(() -> {
+			//updateAround(m.getTmpYX());
+			//updateGrid();
+			//updateAround(m.tmpYX);
+		//});
+		//uiUpdate.start();
+		updateGrid();
+		updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
 			Thread.sleep(41);
