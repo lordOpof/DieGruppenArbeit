@@ -1,9 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Model extends JFrame {
@@ -13,17 +15,22 @@ public class Model extends JFrame {
 
 	public int col, row;
 	private ArrayList<ModLis> subs = new ArrayList<>();
+	public boolean[][] visited;
+	boolean isConnected = false;
+
+	int sixCounter=0;
 
 	public Model(int _row, int _col) {
 		arrayTest = new int[_row][_col];
 		col = arrayTest[0].length; // NOTE: col = _col; is more optimal
 		row = arrayTest.length;
 	}
+
 	public Model() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int widthDisplay = gd.getDisplayMode().getWidth();
 		int heightDisplay = gd.getDisplayMode().getHeight();
-		arrayTest = new int[heightDisplay/5][widthDisplay/5];
+		arrayTest = new int[heightDisplay / 5][widthDisplay / 5];
 		col = arrayTest[0].length; // NOTE: col = _col; is more optimal
 		row = arrayTest.length;
 	}
@@ -31,7 +38,7 @@ public class Model extends JFrame {
 	public void circler() {
 		Thread updateLoop = new Thread(() -> {
 			while (true) {
-				logicSand();
+				logic();
 			}
 		});
 		updateLoop.start();
@@ -49,7 +56,7 @@ public class Model extends JFrame {
 				tr = true;
 			}
 		});
-		add2simThread.start();
+		//add2simThread.start();
 	}
 
 	public void adamSandler() {  //TODO:needs renaming
@@ -88,10 +95,31 @@ public class Model extends JFrame {
 		notifySubs();
 	}
 
-	public void logicSand() {
-
+	public void logic() {
 		for (int y = row - 1; y >= 0; y--) {
 			for (int x = 0; x < col; x++) {
+				switch (arrayTest[y][x]) {
+					case 1, 2, 4 -> logicSand(y, x);
+					case 3 -> logicStructure3(y, x);
+//TODO: depending on number diffenrent logic
+				}
+			}
+		}
+		if (!isConnected) {
+			for (int _y = 0; _y < row; _y++) {
+				for (int _x = 0; _x < col; _x++) {
+					if (visited[_y][_x]) arrayTest[_y][_x] = 4;
+				}
+			}
+		}
+		notifySubs();
+	}
+
+	public void logicSand(int y, int x) {
+		//for (int y = row - 1; y >= 0; y--)
+		{
+			//for (int x = 0; x < col; x++)
+			{
 				if (arrayTest[y][x] != 0) {
 					if (y + 1 < row) {
 						if (arrayTest[y + 1][x] == 0) {
@@ -154,7 +182,220 @@ public class Model extends JFrame {
 				}
 			}
 		}
-		notifySubs();
+
+	}
+
+
+	//boolean[][] besucht;
+	/*int[][] testTest = {
+			{0,1,0,0},
+			{0,1,1,0},
+			{0,0,0,0}};
+	/*public void logicStructure(int y, int x) {
+		int sameInt = testTest[y][x]; //NOTE:CHANGE
+		isConnected = false;
+
+		//isConArr = new boolean[row][col];NOTE: good one
+		besucht = new boolean[3][4];
+		for (int i = 0; i < besucht.length; i++) {
+			Arrays.fill(besucht[i], false);
+		}
+		ArrayList<Point> list = new ArrayList<>();
+
+		//if (!isConArr[y][x]) return;
+		besucht[y][x] = true;
+		list.add(new Point(x, y));
+		int counter = 0; //REDUNDANT
+		while ((!list.isEmpty())&&(isConArr[list.get(0).y][list.get(0).x])) {
+			list = searchListAround(list.get(0).y, list.get(0).x, list);
+			counter++;
+			System.out.println(counter);
+		}
+		if (!isConnected) {
+//logicSand(y,x); NOTE: need this
+			{//REDUNDANT
+
+				if (testTest[y][x] != 0) {
+					if (y + 1 < row) {
+						if (testTest[y + 1][x] == 0) {
+							testTest[y + 1][x] = testTest[y][x];
+							testTest[y][x] = 0;
+							tmpYX[0] = y;
+							tmpYX[1] = x;
+
+							//notifySubs();
+						}
+					}
+				}
+				System.out.println("logicSandLESSSSSSSSSSSSSSSS GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+			}
+		}
+	}
+
+	public void logicStructure2(int y, int x) {
+			int[][] dir
+					= {
+					{ 0, 1 },
+					{ 0, -1 },
+					{ 1, 0 },
+					{ -1, 0 } };
+
+		besucht = new boolean[3][4];
+		for (int i = 0; i < besucht.length; i++) {
+			Arrays.fill(besucht[i], false);
+		}
+			row=testTest.length;
+			col=testTest[0].length; //REDUNDANT
+
+			Queue<Pair> q = new LinkedList<>(); //ArrayList<Point> list = new ArrayList<>();
+
+			q.add(new Pair(y,x)); //list.add(new Point(x, y));
+
+
+			while (q.size() > 0) { //while ((!list.isEmpty())
+				Pair tmpP = (q.peek());
+				q.remove();
+
+				// Mark as visited
+				besucht[tmpP.i1][tmpP.i2] = true; //NOTE: own isConArr system implement
+
+				//NOTE: at edge of board
+				if (tmpP.i1 == row - 1 || tmpP.i2 == col - 1||tmpP.i1 == 0 || tmpP.i2 == 0) {
+					isConnected = true;
+
+				}
+				for (int i = 0; i < 4; i++) {
+
+					int a = tmpP.i1 + dir[i][0];
+					int b = tmpP.i2 + dir[i][1];
+
+					if (a >= 0 && b >= 0 && a < row && b < col && !besucht[a][b]) {
+						if (a == row - 1 && b == col - 1)
+							isConnected= true;
+						System.out.println(isConnected);
+						System.out.println("a:"+a+" b:"+b);
+						q.add(new Pair(a, b));
+					}
+				}
+
+
+			}
+			if(!isConnected){
+				System.out.println("AAAA");
+				logicSand(y,x);}
+
+				public ArrayList<Point> searchListAround(int _y, int _x, ArrayList<Point> list) {
+		int sameInt = arrayTest[_y][_x];
+		for (int y = _y - 1; y <= _y + 1; y++) {
+			for (int x = _x - 1; x <= _x + 1; x++) {
+				System.out.println("y:"+y+" x:"+x);
+					if (y < 0 || y >= besucht.length || x < 0 || x >= besucht[0].length)
+						//if (sameInt == arrayTest[y][x])
+							isConnected = true;
+				try {
+					if ((!besucht[y][x]) && (sameInt == arrayTest[y][x])) {
+						list.add(new Point(x, y)); //NOTE: hier xy da point, dont change!!!
+						besucht[y][x]=true;
+					}
+				} catch (Exception ignored) {
+				}
+			}
+		}
+		list.remove(0);
+		return list;
+	}
+	}*/
+
+	public void logicStructure3(int y, int x) {
+		visited = new boolean[row][col];
+		Queue<int[]> q = new LinkedList<>();
+
+
+		/*int tmp = sixCounter;
+		sixCounter=0;
+		for (int _y = 0; _y < row; _y++) {
+			for (int _x = 0; _x < col; _x++) {
+				if (arrayTest[_y][_x]==6)
+					sixCounter++;
+			}
+		}
+
+		if(tmp!=sixCounter)
+			for (int _y = 0; _y < row; _y++) {
+				for (int _x = 0; _x < col; _x++) {
+					if (arrayTest[_y][_x]==6) {
+						arrayTest[_y][_x] = 3;
+					}
+				}
+			}*/
+
+		if (arrayTest[y][x] == 3) {
+			q.add(new int[]{y, x});
+			visited[y][x] = true;
+		}
+		 isConnected = false;
+
+		//Breitensuche
+		while (!q.isEmpty()) {
+			int[] curr = q.poll();
+			if (curr[0] == 0 || curr[0] == row - 1 || curr[1] == 0 || curr[1] == col - 1) { //NOTE: edge found
+				isConnected = true;
+				//break; if break then stop too soon
+			}
+			int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+			for (int[] dir : dirs) {
+				int _row = curr[0] + dir[0];
+				int _col = curr[1] + dir[1];
+				if (_row >= 0 && _row < row && _col >= 0 && _col < col && !visited[_row][_col] && arrayTest[_row][_col] == arrayTest[y][x]) {
+					q.add(new int[]{_row, _col});
+					visited[_row][_col] = true;
+					//if (!isConnected)arrayTest[_row][_col] = 4;
+				}
+			}
+		}
+
+		/*for (int _y = 0; _y < row; _y++) {
+			for (int _x = 0; _x < col; _x++) {
+				if (visited[_y][_x]) {
+					arrayTest[_y][_x] = 6;
+				}
+			}
+		}*/
+
+
+
+	}
+
+	public int[][] getColorFromPic(String path) {
+		String filePath = path;
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File(filePath));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		int width = img.getWidth();
+		int height = img.getHeight();
+		int[][] arr = new int[height][width];
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				arr[y][x] = img.getRGB(x, y);
+			}
+		}
+		return arr;
+	}
+
+	public void fixMap() {
+		for (int _y = 0; _y < row; _y++) {
+			for (int _x = 0; _x < col; _x++) {
+				switch (arrayTest[_y][_x]) {
+					case -16777216 -> arrayTest[_y][_x] = 3;
+					default -> arrayTest[_y][_x] = 0;
+				}
+			}
+		}
 	}
 
 	public void populateArr() {
@@ -164,8 +405,19 @@ public class Model extends JFrame {
 		printArr();
 	}
 
+	public void cutSlice(int x) {
+		for (int y = 0; y < row; y++) {
+			arrayTest[y][x] = 0;
+		}
+		System.out.println("slice cut?");
+	}
+
 	public int[][] getArrayTest() {
 		return arrayTest;
+	}
+
+	public void setArrayTest(int[][] arr) {
+		arrayTest = arr;
 	}
 
 	public int[] getTmpYX() {

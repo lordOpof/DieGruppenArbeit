@@ -7,7 +7,15 @@ public class UI extends JFrame implements ModLis {
 
 	int[][] arr;
 	int row, col;
-	Component[] components;
+
+	Color[] colorArr = {
+			Color.lightGray,
+			Color.yellow, Color.gray, Color.black,
+			Color.cyan, Color.pink, Color.green,
+			Color.red, Color.magenta, Color.orange,
+			Color.WHITE
+	};
+	public Component[] components;
 	GridBagConstraints gbc;
 	public JPanel p;
 
@@ -97,7 +105,7 @@ public class UI extends JFrame implements ModLis {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}*/
-	}
+	}//NOTE:has some issues
 
 	public void updateAround(int[] coords) {
 		int _y = coords[0];
@@ -121,23 +129,20 @@ public class UI extends JFrame implements ModLis {
 	private Color colorAtPos(int y, int x) {
 
 		try {
-			return switch (arr[y][x]) { // color enhanced switch
-				case 1 -> Color.red;
-				case 2 -> Color.black;
-				case 3 -> Color.GREEN;
-				case 4 -> Color.gray;
-				case 5 -> Color.BLUE;
-				case 6 -> Color.CYAN;
-				case 7 -> Color.MAGENTA;
-				case 8 -> Color.PINK;
-				case 9 -> Color.yellow;
-				case 10 -> Color.orange;
-				default -> Color.white;
-			};
+			return colorArr[arr[y][x]];
 		} catch (Exception e) {
-			System.out.println("color search out of bounds");
-			return Color.white;
+			System.out.println("color out of bounds y: "+y+" x: "+x+" color value: "+arr[y][x]);
+			return Color.darkGray;
 		}
+
+
+			/*int a = (arr[y][x] >> 24) & 255;
+			int r = (arr[y][x] >> 16)& 255;
+			int g = (arr[y][x] >> 8) & 255;
+			int b =arr[y][x]  & 255;
+			return new Color(r, g, b, a);*/
+		//NOTE: http://www.java2s.com/example/java/2d-graphics/get-the-color-from-a-argb-color-value.html
+		//with sliht bug fixing that is
 	}
 
 	public void onValChange(Model m) {
@@ -148,10 +153,10 @@ public class UI extends JFrame implements ModLis {
 		//});
 		//uiUpdate.start();
 		updateGrid();
-		updateAround(m.tmpYX);
+		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
-			Thread.sleep(41);
+			Thread.sleep(30);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}

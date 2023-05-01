@@ -7,12 +7,24 @@ public class Control extends JFrame {
 	public Control(Model _m, UI _ui) {
 		m = _m;
 		ui = _ui;
+		m.setArrayTest(m.getColorFromPic("map.png"));
 		m.addSub(ui);
-		m.populateArr();
+		//m.populateArr();
 		ui.setArr(m.getArrayTest());
 		ui.setup(m.col, m.row);
+
+
+		m.fixMap();
+		ui.updateGrid();
 		System.out.println("startet circling");
 		m.circler();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		m.cutSlice(100);
+
 	}
 
 }
