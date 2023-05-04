@@ -173,7 +173,7 @@ public class Model extends JFrame {
 		Queue<int[]> q = new LinkedList<>();
 
 
-		/
+
 
 		if (arrayTest[y][x] == 3) {
 			q.add(new int[]{y, x});
