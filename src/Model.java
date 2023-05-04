@@ -185,149 +185,12 @@ public class Model extends JFrame {
 
 	}
 
-
-	//boolean[][] besucht;
-	/*int[][] testTest = {
-			{0,1,0,0},
-			{0,1,1,0},
-			{0,0,0,0}};
-	/*public void logicStructure(int y, int x) {
-		int sameInt = testTest[y][x]; //NOTE:CHANGE
-		isConnected = false;
-
-		//isConArr = new boolean[row][col];NOTE: good one
-		besucht = new boolean[3][4];
-		for (int i = 0; i < besucht.length; i++) {
-			Arrays.fill(besucht[i], false);
-		}
-		ArrayList<Point> list = new ArrayList<>();
-
-		//if (!isConArr[y][x]) return;
-		besucht[y][x] = true;
-		list.add(new Point(x, y));
-		int counter = 0; //REDUNDANT
-		while ((!list.isEmpty())&&(isConArr[list.get(0).y][list.get(0).x])) {
-			list = searchListAround(list.get(0).y, list.get(0).x, list);
-			counter++;
-			System.out.println(counter);
-		}
-		if (!isConnected) {
-//logicSand(y,x); NOTE: need this
-			{//REDUNDANT
-
-				if (testTest[y][x] != 0) {
-					if (y + 1 < row) {
-						if (testTest[y + 1][x] == 0) {
-							testTest[y + 1][x] = testTest[y][x];
-							testTest[y][x] = 0;
-							tmpYX[0] = y;
-							tmpYX[1] = x;
-
-							//notifySubs();
-						}
-					}
-				}
-				System.out.println("logicSandLESSSSSSSSSSSSSSSS GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-			}
-		}
-	}
-
-	public void logicStructure2(int y, int x) {
-			int[][] dir
-					= {
-					{ 0, 1 },
-					{ 0, -1 },
-					{ 1, 0 },
-					{ -1, 0 } };
-
-		besucht = new boolean[3][4];
-		for (int i = 0; i < besucht.length; i++) {
-			Arrays.fill(besucht[i], false);
-		}
-			row=testTest.length;
-			col=testTest[0].length; //REDUNDANT
-
-			Queue<Pair> q = new LinkedList<>(); //ArrayList<Point> list = new ArrayList<>();
-
-			q.add(new Pair(y,x)); //list.add(new Point(x, y));
-
-
-			while (q.size() > 0) { //while ((!list.isEmpty())
-				Pair tmpP = (q.peek());
-				q.remove();
-
-				// Mark as visited
-				besucht[tmpP.i1][tmpP.i2] = true; //NOTE: own isConArr system implement
-
-				//NOTE: at edge of board
-				if (tmpP.i1 == row - 1 || tmpP.i2 == col - 1||tmpP.i1 == 0 || tmpP.i2 == 0) {
-					isConnected = true;
-
-				}
-				for (int i = 0; i < 4; i++) {
-
-					int a = tmpP.i1 + dir[i][0];
-					int b = tmpP.i2 + dir[i][1];
-
-					if (a >= 0 && b >= 0 && a < row && b < col && !besucht[a][b]) {
-						if (a == row - 1 && b == col - 1)
-							isConnected= true;
-						System.out.println(isConnected);
-						System.out.println("a:"+a+" b:"+b);
-						q.add(new Pair(a, b));
-					}
-				}
-
-
-			}
-			if(!isConnected){
-				System.out.println("AAAA");
-				logicSand(y,x);}
-
-				public ArrayList<Point> searchListAround(int _y, int _x, ArrayList<Point> list) {
-		int sameInt = arrayTest[_y][_x];
-		for (int y = _y - 1; y <= _y + 1; y++) {
-			for (int x = _x - 1; x <= _x + 1; x++) {
-				System.out.println("y:"+y+" x:"+x);
-					if (y < 0 || y >= besucht.length || x < 0 || x >= besucht[0].length)
-						//if (sameInt == arrayTest[y][x])
-							isConnected = true;
-				try {
-					if ((!besucht[y][x]) && (sameInt == arrayTest[y][x])) {
-						list.add(new Point(x, y)); //NOTE: hier xy da point, dont change!!!
-						besucht[y][x]=true;
-					}
-				} catch (Exception ignored) {
-				}
-			}
-		}
-		list.remove(0);
-		return list;
-	}
-	}*/
-
 	public void logicStructure3(int y, int x) {
 		visited = new boolean[row][col];
 		Queue<int[]> q = new LinkedList<>();
 
 
-		/*int tmp = sixCounter;
-		sixCounter=0;
-		for (int _y = 0; _y < row; _y++) {
-			for (int _x = 0; _x < col; _x++) {
-				if (arrayTest[_y][_x]==6)
-					sixCounter++;
-			}
-		}
-
-		if(tmp!=sixCounter)
-			for (int _y = 0; _y < row; _y++) {
-				for (int _x = 0; _x < col; _x++) {
-					if (arrayTest[_y][_x]==6) {
-						arrayTest[_y][_x] = 3;
-					}
-				}
-			}*/
+		/
 
 		if (arrayTest[y][x] == 3) {
 			q.add(new int[]{y, x});
@@ -354,13 +217,7 @@ public class Model extends JFrame {
 			}
 		}
 
-		/*for (int _y = 0; _y < row; _y++) {
-			for (int _x = 0; _x < col; _x++) {
-				if (visited[_y][_x]) {
-					arrayTest[_y][_x] = 6;
-				}
-			}
-		}*/
+		/*for
 
 
 
