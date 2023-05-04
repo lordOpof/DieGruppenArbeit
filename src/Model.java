@@ -200,8 +200,6 @@ public class Model extends JFrame {
 			}
 		}
 
-		/*for
-
 
 
 	}
@@ -231,7 +229,7 @@ public class Model extends JFrame {
 		for (int _y = 0; _y < row; _y++) {
 			for (int _x = 0; _x < col; _x++) {
 				switch (arrayTest[_y][_x]) {
-					case -16777216 -> arrayTest[_y][_x] = 3;
+					case -16777216 -> arrayTest[_y][_x] = 3; //black
 					default -> arrayTest[_y][_x] = 0;
 				}
 			}
