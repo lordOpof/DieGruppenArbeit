@@ -110,7 +110,6 @@ public class Model extends JFrame {
 							arrayTest[y][x] = 0;
 							tmpYX[0] = y;
 							tmpYX[1] = x;
-
 							//notifySubs();
 						}
 					}
@@ -165,7 +164,7 @@ public class Model extends JFrame {
 				}
 			}
 		}
-
+//TODO: OPTIMIZE!!!!!!!
 	}
 
 	public void logicStructure3(int y, int x) {
@@ -235,6 +234,7 @@ public class Model extends JFrame {
 			}
 		}
 	}
+//TODO: make usable for multiple numbers with same color
 
 	public void populateArr() {
 		for (int y = 0; y < row; y++) {
