@@ -11,7 +11,7 @@ public class UI extends JFrame implements ModLis {
 	Color[] colorArr = {
 			Color.lightGray,
 			Color.yellow, Color.gray, Color.black,
-			Color.cyan, Color.pink, Color.green,
+			Color.black, Color.pink, Color.green,
 			Color.red, Color.magenta, Color.orange,
 			Color.WHITE
 	};
