@@ -26,7 +26,7 @@ public class Model extends JFrame {
 		row = arrayTest.length;
 	}
 
-	public Model() {
+	public Model() { //REDUNDANT
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int widthDisplay = gd.getDisplayMode().getWidth();
 		int heightDisplay = gd.getDisplayMode().getHeight();
@@ -57,23 +57,6 @@ public class Model extends JFrame {
 			}
 		});
 		//add2simThread.start();
-	}
-
-	public void adamSandler() {  //TODO:needs renaming
-		Thread sandler = new Thread(() -> {
-			//TODO: sand sandind machen
-			int i = 0;
-			while (i != 10) {
-				arrayTest[0][col / 2] = rng.nextInt(4) + 1;
-				notifySubs();
-				try {
-					TimeUnit.MILLISECONDS.sleep(300);
-				} catch (InterruptedException ignored) {
-				}
-				i++;
-			}
-		});
-		sandler.start();
 	}
 
 	public void printArr() {
