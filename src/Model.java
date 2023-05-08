@@ -16,12 +16,14 @@ public class Model extends JFrame {
 	public int col, row;
 	private ArrayList<ModLis> subs = new ArrayList<>();
 	public boolean[][] visited;
-	boolean isConnected = false;
+	boolean isConnected=false;
+    int[][]blobs;
 
 	int sixCounter=0;
 
 	public Model(int _row, int _col) {
 		screArr = new int[_row][_col];
+        blobs = new int[_row][_col]; //blob make arr to arr holding arr, with blob number and connected status
 		col = screArr[0].length; // NOTE: col = _col; is more optimal
 		row = screArr.length;
 	}
