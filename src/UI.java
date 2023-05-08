@@ -41,8 +41,8 @@ public class UI extends JFrame implements ModLis {
 		setVisible(true);
 
 		gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0;
+		gbc.weightx = 0;		gbc.fill = GridBagConstraints.BOTH;
+
 		gbc.weighty = 0;
 		gbc.insets = new Insets(0, 0, 0, 0);
 
