@@ -17,13 +17,13 @@ public class Model extends JFrame {
 	private ArrayList<ModLis> subs = new ArrayList<>();
 	public boolean[][] visited;
 	boolean isConnected=false;
-    int[][]blobs;
+    int[][][]blobs;
 
 	int sixCounter=0;
 
 	public Model(int _row, int _col) {
 		screArr = new int[_row][_col];
-        blobs = new int[_row][_col]; //blob make arr to arr holding arr, with blob number and connected status
+        blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
 		col = screArr[0].length; // NOTE: col = _col; is more optimal
 		row = screArr.length;
 	}
@@ -71,6 +71,16 @@ public class Model extends JFrame {
 		System.out.println();
 		System.out.println();
 	}
+    public void printArr3D() {
+		for (int y = 0; y < row; y++) {
+			for (int x = 0; x < col; x++) {
+				System.out.print(blobs[y][x][1] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println();
+	}
 
 	public void add2sim(int y, int x) {
 		screArr[y][x] = rng.nextInt(11);
@@ -90,13 +100,14 @@ public class Model extends JFrame {
 				}
 			}
 		}
-		if (!isConnected) {
+		/*if (!isConnected) {
 			for (int _y = 0; _y < row; _y++) {
 				for (int _x = 0; _x < col; _x++) {
 					if (visited[_y][_x]) screArr[_y][_x] = 4;
 				}
 			}
 		}
+        */
 		notifySubs();
 	}
 
@@ -173,19 +184,18 @@ public class Model extends JFrame {
 		visited = new boolean[row][col];
 		Queue<int[]> q = new LinkedList<>();
 
-
-
-
 		if (screArr[y][x] == 3) {
 			q.add(new int[]{y, x});
 			visited[y][x] = true;
 		}
+        blobs[y][x][1] = 0;
 		 isConnected = false;
 
 		//Breitensuche
 		while (!q.isEmpty()) {
 			int[] curr = q.poll();
-			if (curr[0] == 0 || curr[0] == row - 1 || curr[1] == 0 || curr[1] == col - 1) { //NOTE: edge found
+			if (curr[0] == 0 /*|| curr[0] == row - 1 sodass unten nicht zahlt*/|| curr[1] == 0 || curr[1] == col - 1) { //NOTE: edge found
+                blobs[y][x][1] = 1;
 				isConnected = true;
 				//break; if break then stop too soon
 			}
@@ -200,6 +210,7 @@ public class Model extends JFrame {
 				}
 			}
 		}
+       if(blobs[y][x][1]==0||!isConnected) logicSand(y, x); //NOTE: why does this work, it just does, is it slow tho
 
 
 

@@ -24,6 +24,7 @@ public class Control extends JFrame {
 			throw new RuntimeException(e);
 		}
 		m.cutSlice(100);
+        m.cutSlice(101);
 
 	}
 
