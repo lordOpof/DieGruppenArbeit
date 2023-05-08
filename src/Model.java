@@ -167,6 +167,68 @@ public class Model extends JFrame {
 //TODO: OPTIMIZE!!!!!!!
 	}
 
+	public void logicGas(int y, int x)
+	{
+		if(screArr[y][x]!=0)
+		{
+			if (y + 1 != 0) {
+				if (screArr[y - 1][x] == 0) {
+					screArr[y - 1][x] = screArr[y][x];
+					screArr[y][x] = 0;
+					tmpYX[0] = y;
+					tmpYX[1] = x;
+		}
+				//noch nicht bearbeitet
+				switch (rng.nextInt(2)) {
+					case 0 -> {
+						try {
+							if (screArr[y + 1][x - 1] == 0) {
+								screArr[y + 1][x - 1] = screArr[y][x];
+								screArr[y][x] = 0;
+								tmpYX[0] = y;
+								tmpYX[1] = x;
+								//notifySubs();
+							}
+						} catch (Exception e) {
+							try {
+								if (screArr[y + 1][x + 1] == 0) {
+									screArr[y + 1][x + 1] = screArr[y][x];
+									screArr[y][x] = 0;
+									tmpYX[0] = y;
+									tmpYX[1] = x;
+									//notifySubs();
+								}
+							} catch (Exception ignored) {
+							}
+						}
+					}
+					case 1 -> {
+						try {
+							if (screArr[y + 1][x + 1] == 0) {
+								screArr[y + 1][x + 1] = screArr[y][x];
+								screArr[y][x] = 0;
+								tmpYX[0] = y;
+								tmpYX[1] = x;
+								//notifySubs();
+							}
+						} catch (Exception e) {
+							try {
+
+								if (screArr[y + 1][x - 1] == 0) {
+									screArr[y + 1][x - 1] = screArr[y][x];
+									screArr[y][x] = 0;
+									tmpYX[0] = y;
+									tmpYX[1] = x;
+									//notifySubs();
+								}
+							} catch (Exception ignored) {
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	public void logicStructure3(int y, int x) {
 		visited = new boolean[row][col];
 		Queue<int[]> q = new LinkedList<>();
