@@ -3,7 +3,6 @@ import java.awt.*;
 
 
 public class UI extends JFrame implements ModLis {
-	// schuler war hier
 
 	int[][] arr;
 	int row, col;
@@ -11,7 +10,7 @@ public class UI extends JFrame implements ModLis {
 	Color[] colorArr = {
 			Color.lightGray,
 			Color.yellow, Color.gray, Color.black,
-			Color.black, Color.pink, Color.green,
+			Color.black, Color.green, Color.pink,
 			Color.red, Color.magenta, Color.orange,
 			Color.WHITE
 	};

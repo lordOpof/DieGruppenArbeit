@@ -23,9 +23,6 @@ public class Control extends JFrame {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-		m.cutSlice(100);
-        m.cutSlice(101);
-
 	}
 
 }

@@ -96,6 +96,7 @@ public class Model extends JFrame {
 				switch (screArr[y][x]) {
 					case 1, 2, 4 -> logicSand(y, x);
 					case 3 -> logicStructure3(y, x);
+					case 5 -> logicGas(y, x);
 //TODO: depending on number diffenrent logic
 				}
 			}
@@ -180,24 +181,21 @@ public class Model extends JFrame {
 //TODO: OPTIMIZE!!!!!!!
 	}
 
-	public void logicGas(int y, int x)
-	{
+	public void logicGas(int y, int x) {
 
-		if(screArr[y][x]!=0)
-		{
-			if (y + 1 != 0) {
+		if (screArr[y][x] == 5) {
+			if (y != 0) {
 				if (screArr[y - 1][x] == 0) {
 					screArr[y - 1][x] = screArr[y][x];
 					screArr[y][x] = 0;
 					tmpYX[0] = y;
 					tmpYX[1] = x;
-		}
-				//noch nicht bearbeitet
+				}
 				switch (rng.nextInt(2)) {
 					case 0 -> {
 						try {
-							if (screArr[y + 1][x - 1] == 0) {
-								screArr[y + 1][x - 1] = screArr[y][x];
+							if (screArr[y - 1][x - 1] == 0) {
+								screArr[y - 1][x - 1] = screArr[y][x];
 								screArr[y][x] = 0;
 								tmpYX[0] = y;
 								tmpYX[1] = x;
@@ -205,8 +203,8 @@ public class Model extends JFrame {
 							}
 						} catch (Exception e) {
 							try {
-								if (screArr[y + 1][x + 1] == 0) {
-									screArr[y + 1][x + 1] = screArr[y][x];
+								if (screArr[y - 1][x + 1] == 0) {
+									screArr[y - 1][x + 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -218,8 +216,8 @@ public class Model extends JFrame {
 					}
 					case 1 -> {
 						try {
-							if (screArr[y + 1][x + 1] == 0) {
-								screArr[y + 1][x + 1] = screArr[y][x];
+							if (screArr[y - 1][x + 1] == 0) {
+								screArr[y - 1][x + 1] = screArr[y][x];
 								screArr[y][x] = 0;
 								tmpYX[0] = y;
 								tmpYX[1] = x;
@@ -228,8 +226,55 @@ public class Model extends JFrame {
 						} catch (Exception e) {
 							try {
 
-								if (screArr[y + 1][x - 1] == 0) {
-									screArr[y + 1][x - 1] = screArr[y][x];
+								if (screArr[y - 1][x - 1] == 0) {
+									screArr[y - 1][x - 1] = screArr[y][x];
+									screArr[y][x] = 0;
+									tmpYX[0] = y;
+									tmpYX[1] = x;
+									//notifySubs();
+								}
+							} catch (Exception ignored) {
+							}
+							//nur wie Sand
+						}
+					}
+				} //jetzt wie Gas
+				switch (rng.nextInt(2)) {
+					case 0 -> {
+						try {
+							if (screArr[y][x + 1] == 0) {
+								screArr[y][x + 1] = screArr[y][x];
+								screArr[y][x] = 0;
+								tmpYX[0] = y;
+								tmpYX[1] = x;
+								//notifySubs();
+							}
+						}catch(Exception e){
+								try {
+									if (screArr[y][x - 1] == 0) {
+										screArr[y][x - 1] = screArr[y][x];
+										screArr[y][x] = 0;
+										tmpYX[0] = y;
+										tmpYX[1] = x;
+										//notifySubs();
+									}
+								} catch (Exception ignored) {
+								}
+							}
+						}
+					case 1 -> {
+						try {
+							if (screArr[y][x - 1] == 0) {
+								screArr[y][x - 1] = screArr[y][x];
+								screArr[y][x] = 0;
+								tmpYX[0] = y;
+								tmpYX[1] = x;
+								//notifySubs();
+							}
+						} catch (Exception e) {
+							try {
+								if (screArr[y][x + 1] == 0) {
+									screArr[y][x + 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -295,6 +340,7 @@ public class Model extends JFrame {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				arr[y][x] = img.getRGB(x, y);
+				System.out.println(img.getRGB(x,y));
 			}
 		}
 		return arr;
@@ -305,6 +351,7 @@ public class Model extends JFrame {
 			for (int _x = 0; _x < col; _x++) {
 				switch (screArr[_y][_x]) {
 					case -16777216 -> screArr[_y][_x] = 3; //black
+					case -14503604 -> screArr[_y][_x]=5;
 					default -> screArr[_y][_x] = 0;
 				}
 			}
