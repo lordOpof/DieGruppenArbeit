@@ -151,6 +151,7 @@ public class UI extends JFrame implements ModLis {
 			//updateAround(m.tmpYX);
 		//});
 		//uiUpdate.start();
+setArr(m.newArr);
 		updateGrid();
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
