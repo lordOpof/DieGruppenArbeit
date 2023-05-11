@@ -12,6 +12,7 @@ public class Model extends JFrame {
 	Random rng = new Random();
 	public int[][] screArr;
 	int[] tmpYX = new int[2];
+int[][][] changeArr;
 
 	public int col, row;
 	private ArrayList<ModLis> subs = new ArrayList<>();
@@ -23,9 +24,11 @@ public class Model extends JFrame {
 
 	public Model(int _row, int _col) {
 		screArr = new int[_row][_col];
+changeArr = new int[_row][_col][2];
         blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
 		col = screArr[0].length; // NOTE: col = _col; is more optimal
 		row = screArr.length;
+
 	}
 
 	public Model() { //REDUNDANT
@@ -89,7 +92,13 @@ public class Model extends JFrame {
 		printArr();
 		notifySubs();
 	}
-
+public void updateArr(){
+for (int y = 0; y < row; y++) {
+			for (int x = 0; x < col; x++) {
+//screArr[y][x]=
+}
+}
+}
 	public void logic() {
 		for (int y = row - 1; y >= 0; y--) {
 			for (int x = 0; x < col; x++) {
