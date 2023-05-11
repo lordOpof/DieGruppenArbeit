@@ -19,11 +19,13 @@ int[][][] changeArr;
 	public boolean[][] visited;
 	boolean isConnected=false;
     int[][][]blobs;
+int[][] newArr;
 
 	int sixCounter=0;
 
 	public Model(int _row, int _col) {
 		screArr = new int[_row][_col];
+newArr = new int[_row][_col];
 changeArr = new int[_row][_col][2];
         blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
 		col = screArr[0].length; // NOTE: col = _col; is more optimal
@@ -100,6 +102,8 @@ for (int y = 0; y < row; y++) {
 }
 }
 	public void logic() {
+screArr=newArr;
+//maybe flush newArr
 		for (int y = row - 1; y >= 0; y--) {
 			for (int x = 0; x < col; x++) {
 				switch (screArr[y][x]) {
@@ -129,7 +133,7 @@ for (int y = 0; y < row; y++) {
 				if (screArr[y][x] != 0) {
 					if (y + 1 < row) {
 						if (screArr[y + 1][x] == 0) {
-							screArr[y + 1][x] = screArr[y][x];
+							newArr[y + 1][x] = screArr[y][x];
 							screArr[y][x] = 0;
 							tmpYX[0] = y;
 							tmpYX[1] = x;
@@ -141,7 +145,7 @@ for (int y = 0; y < row; y++) {
 						case 0 -> {
 							try {
 								if (screArr[y + 1][x - 1] == 0) {
-									screArr[y + 1][x - 1] = screArr[y][x];
+									newArr[y + 1][x - 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -150,7 +154,7 @@ for (int y = 0; y < row; y++) {
 							} catch (Exception e) {
 								try {
 									if (screArr[y + 1][x + 1] == 0) {
-										screArr[y + 1][x + 1] = screArr[y][x];
+										newArr[y + 1][x + 1] = screArr[y][x];
 										screArr[y][x] = 0;
 										tmpYX[0] = y;
 										tmpYX[1] = x;
@@ -163,7 +167,7 @@ for (int y = 0; y < row; y++) {
 						case 1 -> {
 							try {
 								if (screArr[y + 1][x + 1] == 0) {
-									screArr[y + 1][x + 1] = screArr[y][x];
+									newArr[y + 1][x + 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -173,7 +177,7 @@ for (int y = 0; y < row; y++) {
 								try {
 
 									if (screArr[y + 1][x - 1] == 0) {
-										screArr[y + 1][x - 1] = screArr[y][x];
+										newArr[y + 1][x - 1] = screArr[y][x];
 										screArr[y][x] = 0;
 										tmpYX[0] = y;
 										tmpYX[1] = x;
@@ -195,7 +199,7 @@ for (int y = 0; y < row; y++) {
 		if (screArr[y][x] == 5) {
 			if (y != 0) {
 				if (screArr[y - 1][x] == 0) {
-					screArr[y - 1][x] = screArr[y][x];
+					newArr[y - 1][x] = screArr[y][x];
 					screArr[y][x] = 0;
 					tmpYX[0] = y;
 					tmpYX[1] = x;
@@ -204,7 +208,7 @@ for (int y = 0; y < row; y++) {
 					case 0 -> {
 						try {
 							if (screArr[y - 1][x - 1] == 0) {
-								screArr[y - 1][x - 1] = screArr[y][x];
+								newArr[y - 1][x - 1] = screArr[y][x];
 								screArr[y][x] = 0;
 								tmpYX[0] = y;
 								tmpYX[1] = x;
@@ -213,7 +217,7 @@ for (int y = 0; y < row; y++) {
 						} catch (Exception e) {
 							try {
 								if (screArr[y - 1][x + 1] == 0) {
-									screArr[y - 1][x + 1] = screArr[y][x];
+									newArr[y - 1][x + 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -226,7 +230,7 @@ for (int y = 0; y < row; y++) {
 					case 1 -> {
 						try {
 							if (screArr[y - 1][x + 1] == 0) {
-								screArr[y - 1][x + 1] = screArr[y][x];
+								newArr[y - 1][x + 1] = screArr[y][x];
 								screArr[y][x] = 0;
 								tmpYX[0] = y;
 								tmpYX[1] = x;
@@ -236,7 +240,7 @@ for (int y = 0; y < row; y++) {
 							try {
 
 								if (screArr[y - 1][x - 1] == 0) {
-									screArr[y - 1][x - 1] = screArr[y][x];
+									newArr[y - 1][x - 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -252,7 +256,7 @@ for (int y = 0; y < row; y++) {
 					case 0 -> {
 						try {
 							if (screArr[y][x + 1] == 0) {
-								screArr[y][x + 1] = screArr[y][x];
+								newArr[y][x + 1] = screArr[y][x];
 								screArr[y][x] = 0;
 								tmpYX[0] = y;
 								tmpYX[1] = x;
@@ -261,7 +265,7 @@ for (int y = 0; y < row; y++) {
 						}catch(Exception e){
 								try {
 									if (screArr[y][x - 1] == 0) {
-										screArr[y][x - 1] = screArr[y][x];
+										newArr[y][x - 1] = screArr[y][x];
 										screArr[y][x] = 0;
 										tmpYX[0] = y;
 										tmpYX[1] = x;
@@ -274,7 +278,7 @@ for (int y = 0; y < row; y++) {
 					case 1 -> {
 						try {
 							if (screArr[y][x - 1] == 0) {
-								screArr[y][x - 1] = screArr[y][x];
+								newArr[y][x - 1] = screArr[y][x];
 								screArr[y][x] = 0;
 								tmpYX[0] = y;
 								tmpYX[1] = x;
@@ -283,7 +287,7 @@ for (int y = 0; y < row; y++) {
 						} catch (Exception e) {
 							try {
 								if (screArr[y][x + 1] == 0) {
-									screArr[y][x + 1] = screArr[y][x];
+									newArr[y][x + 1] = screArr[y][x];
 									screArr[y][x] = 0;
 									tmpYX[0] = y;
 									tmpYX[1] = x;
@@ -365,6 +369,7 @@ for (int y = 0; y < row; y++) {
 				}
 			}
 		}
+newArr=screArr;
 	}
 //TODO: make usable for multiple numbers with same color
 
@@ -377,7 +382,7 @@ for (int y = 0; y < row; y++) {
 
 	public void cutSlice(int x) {
 		for (int y = 0; y < row; y++) {
-			screArr[y][x] = 0;
+			newArr[y][x] = 0;
 		}
 		System.out.println("slice cut?");
 	}
