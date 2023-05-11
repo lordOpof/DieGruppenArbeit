@@ -182,6 +182,7 @@ public class Model extends JFrame {
 
 	public void logicGas(int y, int x)
 	{
+
 		if(screArr[y][x]!=0)
 		{
 			if (y + 1 != 0) {
