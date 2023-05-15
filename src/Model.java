@@ -417,7 +417,7 @@ public class Model extends JFrame {
         }
     }
 
-    public void bewegen(int x, int y) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
+    public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
         int xb = vektorArr[y][x].getx();
         int yb = vektorArr[y][x].gety();
         if (screArr[y + yb][x + xb] == 0) {
