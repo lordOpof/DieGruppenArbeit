@@ -76,6 +76,8 @@ public class UI extends JFrame implements ModLis {
 
 			}
 		}
+		p.repaint();
+		p.revalidate();
 		/*Thread t1 = new Thread(() -> {
 			for (int y = 0; y < row/2; y++) {
 				for (int x = 0; x < col; x++) {
