@@ -428,5 +428,45 @@ public class Model extends JFrame {
             vektorArr[y + yb][x + xb].setx(yb-1);
             vektorArr[y + yb][x + xb].sety(xb);
         }
+else {
+int hilfx = xb;
+int hilfy = yb;
+while(screArr[y + hilfx][x + hilfy] != 0)
+{
+if(hilfx > 0)
+{
+hilfx - 1;
+}
+else
+{
+hilfx + 1;
+}
+if(hilfy > 0)
+{
+hilfy - 1;
+}
+else
+{
+hilfy + 1;
+}
+newArr[x + hilfx][y + hilfy] = screArr[x][y];
     }
 }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
