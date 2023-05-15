@@ -428,6 +428,15 @@ public class Model extends JFrame {
             vektorArr[y + yb][x + xb].setx(yb-1);
             vektorArr[y + yb][x + xb].sety(xb);
         }
+else if(screArr[y - 1][x])
+{
+vektorArr[y][x].setx = 0;
+vektorArr[y][x].sety = 0;
+}
+else if(screArr[y][x + 1] || screArr[y][x - 1])
+{
+
+}
 else {
 int hilfx = xb;
 int hilfy = yb;
@@ -449,7 +458,7 @@ else
 {
 hilfy + 1;
 }
-newArr[x + hilfx][y + hilfy] = screArr[x][y];
+newArr[y + hilfy][x + hilfx] = screArr[y][x];
     }
 }
 }
