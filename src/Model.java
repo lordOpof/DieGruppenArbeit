@@ -30,7 +30,10 @@ public class Model extends JFrame {
         blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
         col = screArr[0].length; // NOTE: col = _col; is more optimal
         row = screArr.length;
-
+        //bewegen tester
+        screArr[20][20] = 7;
+        vektorArr[20][20].setx(4);
+        vektorArr[20][20].sety(4);
     }
 
     public Model() { //REDUNDANT
@@ -425,43 +428,38 @@ public class Model extends JFrame {
             screArr[y][x] = 0;
             vektorArr[y][x].setx(0);
             vektorArr[y][x].sety(0);
-            vektorArr[y + yb][x + xb].setx(yb-1);
+            vektorArr[y + yb][x + xb].setx(yb - 1);
             vektorArr[y + yb][x + xb].sety(xb);
-        }
-else if(screArr[y - 1][x])
-{
-vektorArr[y][x].setx = 0;
-vektorArr[y][x].sety = 0;
-}
-else if(screArr[y][x + 1] || screArr[y][x - 1])
-{
+        } else if (screArr[y - 1][x] != 0) {
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+        } else if (screArr[y][x + 1] != 0 || screArr[y][x - 1] != 0) {
+            vektorArr[y][x].setx(-xb);
+        } else {
+            int hilfx = xb;
+            int hilfy = yb;
+            while (screArr[y + hilfx][x + hilfy] != 0) {
+                if (hilfx > 0) {
+                    hilfx--;
+                } else {
+                    hilfx++;
+                }
+                if (hilfy > 0) {
+                    hilfy--;
+                } else {
+                    hilfy++;
+                }
+            }
+            newArr[y + hilfy][x + hilfx] = screArr[y][x];
+            vektorArr[y + hilfy][x + hilfx].setx(xb);
+            vektorArr[y + hilfy][x + hilfx].sety(yb);
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
 
-}
-else {
-int hilfx = xb;
-int hilfy = yb;
-while(screArr[y + hilfx][x + hilfy] != 0)
-{
-if(hilfx > 0)
-{
-hilfx - 1;
-}
-else
-{
-hilfx + 1;
-}
-if(hilfy > 0)
-{
-hilfy - 1;
-}
-else
-{
-hilfy + 1;
-}
-newArr[y + hilfy][x + hilfx] = screArr[y][x];
+        }
     }
 }
-}
+
 
 
 
