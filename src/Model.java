@@ -371,7 +371,7 @@ public class Model extends JFrame {
             for (int _x = 0; _x < col; _x++) {
                 switch (screArr[_y][_x]) {
                     case -16777216 -> screArr[_y][_x] = 3; //black
-                    case -14503604 -> screArr[_y][_x] = 5;
+                    case -14503604 -> screArr[_y][_x] = 5; //grün
                     default -> screArr[_y][_x] = 0;
                 }
             }
