@@ -455,7 +455,6 @@ public class Model extends JFrame {
             vektorArr[y + hilfy][x + hilfx].sety(yb);
             vektorArr[y][x].setx(0);
             vektorArr[y][x].sety(0);
-
         }
     }
 }
