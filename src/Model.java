@@ -11,11 +11,12 @@ import java.util.concurrent.TimeUnit;
 public class Model extends JFrame {
     Random rng = new Random();
     public int[][] screArr;
-    int[] tmpYX = new int[2];
-    int[][][] changeArr;
-    Vektor[][] vektorArr;
+    int[] tmpYX = new int[2];// speichert YX Werte zwischen
+    int[][][] changeArr; //TODO:nicht wichtig
+
+    Vektor[][] vektorArr; //Für Bewegung
     public int col, row;
-    private ArrayList<ModLis> subs = new ArrayList<>();
+    private ArrayList<ModLis> subs = new ArrayList<>(); //Observer-Pattern
     public boolean[][] visited;
     boolean isConnected = false;
     int[][][] blobs;
@@ -69,44 +70,6 @@ public class Model extends JFrame {
         //add2simThread.start();
     }
 
-    public void printArr() {
-        for (int y = 0; y < row; y++) {
-            for (int x = 0; x < col; x++) {
-                System.out.print(screArr[y][x] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
-
-    public void printArr3D() {
-        for (int y = 0; y < row; y++) {
-            for (int x = 0; x < col; x++) {
-                System.out.print(blobs[y][x][1] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
-
-    public void add2sim(int y, int x) {
-        screArr[y][x] = rng.nextInt(11);
-        tmpYX[0] = y;
-        tmpYX[1] = x;
-        printArr();
-        notifySubs();
-    }
-
-    public void updateArr() {
-        for (int y = 0; y < row; y++) {
-            for (int x = 0; x < col; x++) {
-//screArr[y][x]=
-            }
-        }
-    }
-
     public void logic() {
         screArr = newArr;
 //maybe flush newArr
@@ -116,6 +79,7 @@ public class Model extends JFrame {
                     case 1, 2, 4 -> logicSand(y, x);
                     case 3 -> logicStructure3(y, x);
                     case 5 -> logicGas(y, x);
+                    case 7 -> bewegen(y, x);
 //TODO: depending on number diffenrent logic
                 }
             }
@@ -131,6 +95,7 @@ public class Model extends JFrame {
         notifySubs();
     }
 
+    //region logics
     public void logicSand(int y, int x) {
         //for (int y = row - 1; y >= 0; y--)
         {
@@ -157,6 +122,7 @@ public class Model extends JFrame {
                                     tmpYX[1] = x;
                                     //notifySubs();
                                 }
+                                //endregion
                             } catch (Exception e) {
                                 try {
                                     if (screArr[y + 1][x + 1] == 0) {
@@ -343,6 +309,7 @@ public class Model extends JFrame {
 
 
     }
+    //endregion
 
     public int[][] getColorFromPic(String path) {
         String filePath = path;
@@ -380,19 +347,7 @@ public class Model extends JFrame {
     }
 //TODO: make usable for multiple numbers with same color
 
-    public void populateArr() {
-        for (int y = 0; y < row; y++) {
-            Arrays.fill(screArr[y], 0);
-        }
-        printArr();
-    }
 
-    public void cutSlice(int x) {
-        for (int y = 0; y < row; y++) {
-            newArr[y][x] = 0;
-        }
-        System.out.println("slice cut?");
-    }
 
     public int[][] getScreArr() {
         return screArr;
@@ -406,6 +361,8 @@ public class Model extends JFrame {
         return tmpYX;
     }
 
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region Observer pattern
     public void addSub(ModLis sub) {
         subs.add(sub);
     }
@@ -419,6 +376,50 @@ public class Model extends JFrame {
             sub.onValChange(this);
         }
     }
+
+    //endregion
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region tester Sachen
+    public void printArr() {
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < col; x++) {
+                System.out.print(screArr[y][x] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
+    public void printArr3D() {
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < col; x++) {
+                System.out.print(blobs[y][x][1] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
+    public void add2sim(int y, int x) {
+        screArr[y][x] = rng.nextInt(11);
+        tmpYX[0] = y;
+        tmpYX[1] = x;
+        printArr();
+        notifySubs();
+    }
+    public void cutSlice(int x) {
+        for (int y = 0; y < row; y++) {
+            newArr[y][x] = 0;
+        }
+        System.out.println("slice cut?");
+    }
+    public void populateArr() {
+        for (int y = 0; y < row; y++) {
+            Arrays.fill(screArr[y], 0);
+        }
+        printArr();
+    }
+    //endregion
 
     public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
         int xb = vektorArr[y][x].getx();
