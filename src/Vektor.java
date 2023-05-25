@@ -1,7 +1,7 @@
 public class Vektor {
     int x, y;
 
-    public Vektor(int x, int y) {
+    public Vektor(int y, int x) {
         this.x = x;
         this.y = y;
     }

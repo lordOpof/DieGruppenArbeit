@@ -28,9 +28,11 @@ public class Model extends JFrame {
         screArr = new int[_row][_col];
         newArr = new int[_row][_col];
         changeArr = new int[_row][_col][2];
+        vektorArr = new Vektor[_row][_col];
         blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
         col = screArr[0].length; // NOTE: col = _col; is more optimal
         row = screArr.length;
+        this.vektorBefüllen();
         //bewegen tester
         screArr[20][20] = 7;
         vektorArr[20][20].setx(4);
@@ -46,6 +48,15 @@ public class Model extends JFrame {
         row = screArr.length;
     }
 
+    public void vektorBefüllen(){
+        for(int r = 0; r < col;r++)
+        {
+            for(int c = 0; c < row;c++)
+            {
+                vektorArr[c][r] = new Vektor(0,0);
+            }
+        }
+    }
     public void circler() {
         Thread updateLoop = new Thread(() -> {
             while (true) {
