@@ -11,12 +11,11 @@ import java.util.concurrent.TimeUnit;
 public class Model extends JFrame {
     Random rng = new Random();
     public int[][] screArr;
-    int[] tmpYX = new int[2];// speichert YX Werte zwischen
-    int[][][] changeArr; //TODO:nicht wichtig
-
-    Vektor[][] vektorArr; //Für Bewegung
+    int[] tmpYX = new int[2];
+    int[][][] changeArr;
+    Vektor[][] vektorArr;
     public int col, row;
-    private ArrayList<ModLis> subs = new ArrayList<>(); //Observer-Pattern
+    private ArrayList<ModLis> subs = new ArrayList<>();
     public boolean[][] visited;
     boolean isConnected = false;
     int[][][] blobs;
@@ -32,9 +31,7 @@ public class Model extends JFrame {
         col = screArr[0].length; // NOTE: col = _col; is more optimal
         row = screArr.length;
         //bewegen tester
-        screArr[20][20] = 7;
-        vektorArr[20][20].setx(4);
-        vektorArr[20][20].sety(4);
+
     }
 
     public Model() { //REDUNDANT
@@ -70,6 +67,44 @@ public class Model extends JFrame {
         //add2simThread.start();
     }
 
+    public void printArr() {
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < col; x++) {
+                System.out.print(screArr[y][x] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    public void printArr3D() {
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < col; x++) {
+                System.out.print(blobs[y][x][1] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    public void add2sim(int y, int x) {
+        screArr[y][x] = rng.nextInt(11);
+        tmpYX[0] = y;
+        tmpYX[1] = x;
+        printArr();
+        notifySubs();
+    }
+
+    public void updateArr() {
+        for (int y = 0; y < row; y++) {
+            for (int x = 0; x < col; x++) {
+//screArr[y][x]=
+            }
+        }
+    }
+
     public void logic() {
         screArr = newArr;
 //maybe flush newArr
@@ -79,7 +114,7 @@ public class Model extends JFrame {
                     case 1, 2, 4 -> logicSand(y, x);
                     case 3 -> logicStructure3(y, x);
                     case 5 -> logicGas(y, x);
-                    case 7 -> bewegen(y, x);
+                    case 11 -> logicWasser(y,x);
 //TODO: depending on number diffenrent logic
                 }
             }
@@ -95,8 +130,6 @@ public class Model extends JFrame {
         notifySubs();
     }
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //region logics
     public void logicSand(int y, int x) {
         //for (int y = row - 1; y >= 0; y--)
         {
@@ -123,7 +156,6 @@ public class Model extends JFrame {
                                     tmpYX[1] = x;
                                     //notifySubs();
                                 }
-                                //endregion
                             } catch (Exception e) {
                                 try {
                                     if (screArr[y + 1][x + 1] == 0) {
@@ -166,6 +198,7 @@ public class Model extends JFrame {
         }
 //TODO: OPTIMIZE!!!!!!!
     }
+
 
     public void logicGas(int y, int x) {
 
@@ -274,6 +307,119 @@ public class Model extends JFrame {
             }
         }
     }
+    public void logicWasser(int y, int x) {
+        if (y!=col-2)
+        {
+
+
+            if (screArr[y][x] == 11) {
+                if (y != 0) {
+                    if (screArr[y + 1][x] == 0) {
+                        newArr[y + 1][x] = screArr[y][x];
+                        screArr[y][x] = 0;
+                        tmpYX[0] = y;
+                        tmpYX[1] = x;
+                    }
+                    switch (rng.nextInt(2)) {
+                        case 0 -> {
+                            try {
+                                if (screArr[y + 1][x - 1] == 0) {
+                                    newArr[y + 1][x - 1] = screArr[y][x];
+                                    screArr[y][x] = 0;
+                                    tmpYX[0] = y;
+                                    tmpYX[1] = x;
+                                    //notifySubs();
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    if (screArr[y + 1][x + 1] == 0) {
+                                        newArr[y + 1][x + 1] = screArr[y][x];
+                                        screArr[y][x] = 0;
+                                        tmpYX[0] = y;
+                                        tmpYX[1] = x;
+                                        //notifySubs();
+                                    }
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }
+                        case 1 -> {
+                            try {
+                                if (screArr[y + 1][x + 1] == 0) {
+                                    newArr[y + 1][x + 1] = screArr[y][x];
+                                    screArr[y][x] = 0;
+                                    tmpYX[0] = y;
+                                    tmpYX[1] = x;
+                                    //notifySubs();
+                                }
+                            } catch (Exception e) {
+                                try {
+
+                                    if (screArr[y + 1][x - 1] == 0) {
+                                        newArr[y + 1][x - 1] = screArr[y][x];
+                                        screArr[y][x] = 0;
+                                        tmpYX[0] = y;
+                                        tmpYX[1] = x;
+                                        //notifySubs();
+                                    }
+                                } catch (Exception ignored) {
+                                }
+                                //nur wie Sand
+                            }
+                        }
+                    } //jetzt wie Gas
+                    switch (rng.nextInt(2)) {
+                        case 0 -> {
+                            try {
+                                if (screArr[y][x + 1] == 0) {
+                                    newArr[y][x + 1] = screArr[y][x];
+                                    screArr[y][x] = 0;
+                                    tmpYX[0] = y;
+                                    tmpYX[1] = x;
+                                    //notifySubs();
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    if (screArr[y][x - 1] == 0) {
+                                        newArr[y][x - 1] = screArr[y][x];
+                                        screArr[y][x] = 0;
+                                        tmpYX[0] = y;
+                                        tmpYX[1] = x;
+                                        //notifySubs();
+                                    }
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }
+                        case 1 -> {
+                            try {
+                                if (screArr[y][x - 1] == 0) {
+                                    newArr[y][x - 1] = screArr[y][x];
+                                    screArr[y][x] = 0;
+                                    tmpYX[0] = y;
+                                    tmpYX[1] = x;
+                                    //notifySubs();
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    if (screArr[y][x + 1] == 0) {
+                                        newArr[y][x + 1] = screArr[y][x];
+                                        screArr[y][x] = 0;
+                                        tmpYX[0] = y;
+                                        tmpYX[1] = x;
+                                        //notifySubs();
+                                    }
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
 
     public void logicStructure3(int y, int x) {
         visited = new boolean[row][col];
@@ -311,6 +457,83 @@ public class Model extends JFrame {
 
     }
 
+    public int[][] getColorFromPic(String path) {
+        String filePath = path;
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int[][] arr = new int[height][width];
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                arr[y][x] = img.getRGB(x, y);
+                System.out.println(img.getRGB(x, y));
+            }
+        }
+        return arr;
+    }
+
+    public void fixMap() {
+        for (int _y = 0; _y < row; _y++) {
+            for (int _x = 0; _x < col; _x++) {
+                switch (screArr[_y][_x]) {
+                    case -16777216 -> screArr[_y][_x] = 3; //black
+                    case -14503604 -> screArr[_y][_x] = 5; //grün
+                    default -> screArr[_y][_x] = 0;
+                    case -12629812 -> screArr [_y][_x]=11; //blau
+                }
+            }
+        }
+        newArr = screArr;
+    }
+//TODO: make usable for multiple numbers with same color
+
+    public void populateArr() {
+        for (int y = 0; y < row; y++) {
+            Arrays.fill(screArr[y], 0);
+        }
+        printArr();
+    }
+
+    public void cutSlice(int x) {
+        for (int y = 0; y < row; y++) {
+            newArr[y][x] = 0;
+        }
+        System.out.println("slice cut?");
+    }
+
+    public int[][] getScreArr() {
+        return screArr;
+    }
+
+    public void setScreArr(int[][] arr) {
+        screArr = arr;
+    }
+
+    public int[] getTmpYX() {
+        return tmpYX;
+    }
+
+    public void addSub(ModLis sub) {
+        subs.add(sub);
+    }
+
+    public void remSub(ModLis sub) {
+        subs.remove(sub);
+    }
+
+    public void notifySubs() {
+        for (ModLis sub : subs) {
+            sub.onValChange(this);
+        }
+    }
+
     public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
         int xb = vektorArr[y][x].getx();
         int yb = vektorArr[y][x].gety();
@@ -346,141 +569,9 @@ public class Model extends JFrame {
             vektorArr[y + hilfy][x + hilfx].sety(yb);
             vektorArr[y][x].setx(0);
             vektorArr[y][x].sety(0);
+
         }
     }
-
-    //endregion
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //region berechnungen für view
-    public int[][] getColorFromPic(String path) {
-        String filePath = path;
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(filePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        int width = img.getWidth();
-        int height = img.getHeight();
-        int[][] arr = new int[height][width];
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                arr[y][x] = img.getRGB(x, y);
-                System.out.println(img.getRGB(x, y));
-            }
-        }
-        return arr;
-    }
-
-    public void fixMap() {//hier farbzahlen eintragen farb-zahl verknüpfung
-        for (int _y = 0; _y < row; _y++) {
-            for (int _x = 0; _x < col; _x++) {
-                switch (screArr[_y][_x]) {
-                    case -16777216 -> screArr[_y][_x] = 3; //black
-                    case -14503604 -> screArr[_y][_x] = 5; //grün
-                    default -> screArr[_y][_x] = 0;
-                }
-            }
-        }
-        newArr = screArr;
-    }
-//TODO: make usable for multiple numbers with same color
-
-
-    public int[][] getScreArr() {
-        return screArr;
-    }
-
-    public void setScreArr(int[][] arr) {
-        screArr = arr;
-    }
-
-    public int[] getTmpYX() {
-        return tmpYX;
-    }
-
-    //endregion
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //region Observer pattern
-    public void addSub(ModLis sub) {
-        subs.add(sub);
-    }
-
-    public void remSub(ModLis sub) {
-        subs.remove(sub);
-    }
-
-    public void notifySubs() {
-        for (ModLis sub : subs) {
-            sub.onValChange(this);
-        }
-    }
-
-    //endregion
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //region tester Sachen
-    public void printArr() {
-        for (int y = 0; y < row; y++) {
-            for (int x = 0; x < col; x++) {
-                System.out.print(screArr[y][x] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
-
-    public void printArr3D() {
-        for (int y = 0; y < row; y++) {
-            for (int x = 0; x < col; x++) {
-                System.out.print(blobs[y][x][1] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
-
-    public void add2sim(int y, int x) {
-        screArr[y][x] = rng.nextInt(11);
-        tmpYX[0] = y;
-        tmpYX[1] = x;
-        printArr();
-        notifySubs();
-    }
-
-    public void cutSlice(int x) {
-        for (int y = 0; y < row; y++) {
-            newArr[y][x] = 0;
-        }
-        System.out.println("slice cut?");
-    }
-
-    public void populateArr() {
-        for (int y = 0; y < row; y++) {
-            Arrays.fill(screArr[y], 0);
-        }
-        printArr();
-    }
-    //endregion
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //region Anleitung zum hinzufügen
-    /*
-    1. in logic entsprechene Zahl eintragen mit case
-    2. in fixmap (berechnung für view region) int eintragen
-        2.1. in paint farbe malen
-        2.2. hex copieren von der farbe
-        2.3. online hex to ARGB to int
-            2.3.1. https://www.myfixguide.com/color-converter/ HEX zu ARGB
-            2.3.2. https://argb-int-calculator.netlify.app/ ARGB zu int
-        2.4. int in fixmap eintragen
-
-     */
-    //endregion
-
-
 }
 
 
