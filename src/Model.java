@@ -94,8 +94,9 @@ public class Model extends JFrame {
         */
         notifySubs();
     }
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//region logics
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region logics
     public void logicSand(int y, int x) {
         //for (int y = row - 1; y >= 0; y--)
         {
@@ -310,9 +311,47 @@ public class Model extends JFrame {
 
     }
 
+    public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
+        int xb = vektorArr[y][x].getx();
+        int yb = vektorArr[y][x].gety();
+        if (screArr[y + yb][x + xb] == 0) {
+            newArr[y + yb][x + xb] = screArr[x][y];
+            screArr[y][x] = 0;
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+            vektorArr[y + yb][x + xb].setx(yb - 1);
+            vektorArr[y + yb][x + xb].sety(xb);
+        } else if (screArr[y - 1][x] != 0) {
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+        } else if (screArr[y][x + 1] != 0 || screArr[y][x - 1] != 0) {
+            vektorArr[y][x].setx(-xb);
+        } else {
+            int hilfx = xb;
+            int hilfy = yb;
+            while (screArr[y + hilfx][x + hilfy] != 0) {
+                if (hilfx > 0) {
+                    hilfx--;
+                } else {
+                    hilfx++;
+                }
+                if (hilfy > 0) {
+                    hilfy--;
+                } else {
+                    hilfy++;
+                }
+            }
+            newArr[y + hilfy][x + hilfx] = screArr[y][x];
+            vektorArr[y + hilfy][x + hilfx].setx(xb);
+            vektorArr[y + hilfy][x + hilfx].sety(yb);
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+        }
+    }
+
     //endregion
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
-//region calc for view
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region berechnungen für view
     public int[][] getColorFromPic(String path) {
         String filePath = path;
         BufferedImage img = null;
@@ -335,7 +374,7 @@ public class Model extends JFrame {
         return arr;
     }
 
-    public void fixMap() {
+    public void fixMap() {//hier farbzahlen eintragen farb-zahl verknüpfung
         for (int _y = 0; _y < row; _y++) {
             for (int _x = 0; _x < col; _x++) {
                 switch (screArr[_y][_x]) {
@@ -348,7 +387,6 @@ public class Model extends JFrame {
         newArr = screArr;
     }
 //TODO: make usable for multiple numbers with same color
-
 
 
     public int[][] getScreArr() {
@@ -393,6 +431,7 @@ public class Model extends JFrame {
         System.out.println();
         System.out.println();
     }
+
     public void printArr3D() {
         for (int y = 0; y < row; y++) {
             for (int x = 0; x < col; x++) {
@@ -403,6 +442,7 @@ public class Model extends JFrame {
         System.out.println();
         System.out.println();
     }
+
     public void add2sim(int y, int x) {
         screArr[y][x] = rng.nextInt(11);
         tmpYX[0] = y;
@@ -410,12 +450,14 @@ public class Model extends JFrame {
         printArr();
         notifySubs();
     }
+
     public void cutSlice(int x) {
         for (int y = 0; y < row; y++) {
             newArr[y][x] = 0;
         }
         System.out.println("slice cut?");
     }
+
     public void populateArr() {
         for (int y = 0; y < row; y++) {
             Arrays.fill(screArr[y], 0);
@@ -423,44 +465,20 @@ public class Model extends JFrame {
         printArr();
     }
     //endregion
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region Anleitung zum hinzufügen
+    /*
+    1. in logic entsprechene Zahl eintragen mit case
+    2. in fixmap (berechnung für view region) int eintragen
+        2.1. in paint farbe malen
+        2.2. hex copieren von der farbe
+        2.3. online hex to ARGB to int
+            2.3.1. https://www.myfixguide.com/color-converter/ HEX zu ARGB
+            2.3.2. https://argb-int-calculator.netlify.app/ ARGB zu int
+        2.4. int in fixmap eintragen
 
-    public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
-        int xb = vektorArr[y][x].getx();
-        int yb = vektorArr[y][x].gety();
-        if (screArr[y + yb][x + xb] == 0) {
-            newArr[y + yb][x + xb] = screArr[x][y];
-            screArr[y][x] = 0;
-            vektorArr[y][x].setx(0);
-            vektorArr[y][x].sety(0);
-            vektorArr[y + yb][x + xb].setx(yb - 1);
-            vektorArr[y + yb][x + xb].sety(xb);
-        } else if (screArr[y - 1][x] != 0) {
-            vektorArr[y][x].setx(0);
-            vektorArr[y][x].sety(0);
-        } else if (screArr[y][x + 1] != 0 || screArr[y][x - 1] != 0) {
-            vektorArr[y][x].setx(-xb);
-        } else {
-            int hilfx = xb;
-            int hilfy = yb;
-            while (screArr[y + hilfx][x + hilfy] != 0) {
-                if (hilfx > 0) {
-                    hilfx--;
-                } else {
-                    hilfx++;
-                }
-                if (hilfy > 0) {
-                    hilfy--;
-                } else {
-                    hilfy++;
-                }
-            }
-            newArr[y + hilfy][x + hilfx] = screArr[y][x];
-            vektorArr[y + hilfy][x + hilfx].setx(xb);
-            vektorArr[y + hilfy][x + hilfx].sety(yb);
-            vektorArr[y][x].setx(0);
-            vektorArr[y][x].sety(0);
-        }
-    }
+     */
+    //endregion
 }
 
 
