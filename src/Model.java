@@ -94,8 +94,8 @@ public class Model extends JFrame {
         */
         notifySubs();
     }
-
-    //region logics
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//region logics
     public void logicSand(int y, int x) {
         //for (int y = row - 1; y >= 0; y--)
         {
@@ -309,8 +309,10 @@ public class Model extends JFrame {
 
 
     }
-    //endregion
 
+    //endregion
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
+//region calc for view
     public int[][] getColorFromPic(String path) {
         String filePath = path;
         BufferedImage img = null;
@@ -361,6 +363,7 @@ public class Model extends JFrame {
         return tmpYX;
     }
 
+    //endregion
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //region Observer pattern
     public void addSub(ModLis sub) {
