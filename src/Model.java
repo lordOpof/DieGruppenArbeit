@@ -9,19 +9,19 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Model extends JFrame {
-    Random rng = new Random();
     public int[][] screArr;
-    int[] tmpYX = new int[2];
-    int[][][] changeArr;
-    Vektor[][] vektorArr;
+    int[] tmpYX = new int[2];// speichert YX Werte zwischen
+    int[][][] changeArr; //TODO:nicht wichtig
+
+    Vektor[][] vektorArr; //Für Bewegung
     public int col, row;
-    private ArrayList<ModLis> subs = new ArrayList<>();
+    private ArrayList<ModLis> subs = new ArrayList<>(); //Observer-Pattern
     public boolean[][] visited;
     boolean isConnected = false;
     int[][][] blobs;
     int[][] newArr;
-
     int sixCounter = 0;
+    private ArrayList<ModLis> subs = new ArrayList<>(); //Observer-Pattern
 
     public Model(int _row, int _col) {
         screArr = new int[_row][_col];
@@ -32,8 +32,7 @@ public class Model extends JFrame {
         col = screArr[0].length; // NOTE: col = _col; is more optimal
         row = screArr.length;
         this.vektorBefüllen();
-        //bewegen tester
-
+        this.bewegenTester(20, 20, 3, 3);
     }
 
     public Model() { //REDUNDANT
@@ -45,15 +44,20 @@ public class Model extends JFrame {
         row = screArr.length;
     }
 
-    public void vektorBefüllen(){
-        for(int r = 0; r < col;r++)
-        {
-            for(int c = 0; c < row;c++)
-            {
-                vektorArr[c][r] = new Vektor(0,0);
+    public void bewegenTester(int y, int x, int yb, int xb) {
+        vektorArr[y][x].setx(xb);
+        vektorArr[y][x].sety(yb);
+        screArr[y][x] = 11;
+    }
+
+    public void vektorBefüllen() {
+        for (int r = 0; r < col; r++) {
+            for (int c = 0; c < row; c++) {
+                vektorArr[c][r] = new Vektor(0, 0);
             }
         }
     }
+
     public void circler() {
         Thread updateLoop = new Thread(() -> {
             while (true) {
@@ -141,6 +145,8 @@ public class Model extends JFrame {
         notifySubs();
     }
 
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region logics
     public void logicSand(int y, int x) {
         //for (int y = row - 1; y >= 0; y--)
         {
@@ -468,6 +474,47 @@ public class Model extends JFrame {
 
     }
 
+    public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
+        int xb = vektorArr[y][x].getx();
+        int yb = vektorArr[y][x].gety();
+        if (screArr[y + yb][x + xb] == 0) {
+            newArr[y + yb][x + xb] = screArr[x][y];
+            screArr[y][x] = 0;
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+            vektorArr[y + yb][x + xb].setx(yb);
+            vektorArr[y + yb][x + xb].sety(xb);
+        } else if (screArr[y - 1][x] != 0) {
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+        } else if (screArr[y][x + 1] != 0 || screArr[y][x - 1] != 0) {
+            vektorArr[y][x].setx(-xb);
+        } else {
+            int hilfx = xb;
+            int hilfy = yb;
+            while (screArr[y + hilfx][x + hilfy] != 0) {
+                if (hilfx > 0) {
+                    hilfx--;
+                } else {
+                    hilfx++;
+                }
+                if (hilfy > 0) {
+                    hilfy--;
+                } else {
+                    hilfy++;
+                }
+            }
+            newArr[y + hilfy][x + hilfx] = screArr[y][x];
+            vektorArr[y + hilfy][x + hilfx].setx(xb);
+            vektorArr[y + hilfy][x + hilfx].sety(yb);
+            vektorArr[y][x].setx(0);
+            vektorArr[y][x].sety(0);
+        }
+    }
+
+    //endregion
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //region berechnungen für view
     public int[][] getColorFromPic(String path) {
         String filePath = path;
         BufferedImage img = null;
@@ -545,44 +592,6 @@ public class Model extends JFrame {
         }
     }
 
-    public void bewegen(int y, int x) { // Diese Methode ist für jede Art von Bewegung zuständig, die komplizierter als normales fallen ist
-        int xb = vektorArr[y][x].getx();
-        int yb = vektorArr[y][x].gety();
-        if (screArr[y + yb][x + xb] == 0) {
-            newArr[y + yb][x + xb] = screArr[x][y];
-            screArr[y][x] = 0;
-            vektorArr[y][x].setx(0);
-            vektorArr[y][x].sety(0);
-            vektorArr[y + yb][x + xb].setx(yb - 1);
-            vektorArr[y + yb][x + xb].sety(xb);
-        } else if (screArr[y - 1][x] != 0) {
-            vektorArr[y][x].setx(0);
-            vektorArr[y][x].sety(0);
-        } else if (screArr[y][x + 1] != 0 || screArr[y][x - 1] != 0) {
-            vektorArr[y][x].setx(-xb);
-        } else {
-            int hilfx = xb;
-            int hilfy = yb;
-            while (screArr[y + hilfx][x + hilfy] != 0) {
-                if (hilfx > 0) {
-                    hilfx--;
-                } else {
-                    hilfx++;
-                }
-                if (hilfy > 0) {
-                    hilfy--;
-                } else {
-                    hilfy++;
-                }
-            }
-            newArr[y + hilfy][x + hilfx] = screArr[y][x];
-            vektorArr[y + hilfy][x + hilfx].setx(xb);
-            vektorArr[y + hilfy][x + hilfx].sety(yb);
-            vektorArr[y][x].setx(0);
-            vektorArr[y][x].sety(0);
-
-        }
-    }
 }
 
 
