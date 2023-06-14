@@ -21,7 +21,7 @@ public class Model extends JFrame {
     int[][][] blobs;
     int[][] newArr;
     int sixCounter = 0;
-    private ArrayList<ModLis> subs = new ArrayList<>(); //Observer-Pattern
+    public Random rng = new Random();
 
     public Model(int _row, int _col) {
         screArr = new int[_row][_col];
@@ -130,6 +130,7 @@ public class Model extends JFrame {
                     case 3 -> logicStructure3(y, x);
                     case 5 -> logicGas(y, x);
                     case 11 -> logicWasser(y,x);
+                    //case 7 nasser Sand
 //TODO: depending on number diffenrent logic
                 }
             }
@@ -325,28 +326,54 @@ public class Model extends JFrame {
         }
     }
     public void logicWasser(int y, int x) {
-        if (y!=col-2)
-        {
-
-
+        if (y != col - 1) {
             if (screArr[y][x] == 11) {
-                if (y != 0) {
-                    if (screArr[y + 1][x] == 0) {
-                        newArr[y + 1][x] = screArr[y][x];
-                        screArr[y][x] = 0;
-                        tmpYX[0] = y;
-                        tmpYX[1] = x;
-                    }
-                    switch (rng.nextInt(2)) {
-                        case 0 -> {
-                            try {
-                                if (screArr[y + 1][x - 1] == 0) {
-                                    newArr[y + 1][x - 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                if (screArr[y + 1][x] == 0) {
+                    newArr[y + 1][x] = screArr[y][x];
+                    screArr[y][x] = 0;
+                    tmpYX[0] = y;
+                    tmpYX[1] = x;
+                }
+                if (screArr[y + 1][x] == 7) {
+                    screArr[y][x] = 0;
+                    int hilf = 7;
+                    tmpYX[1] = y + 1;
+                    tmpYX[2] = x;
+                    while (hilf == 7) {
+                        if (screArr[tmpYX[1]][tmpYX[2]] == 1) {
+                            hilf = 1;
+                        } else {
+                            switch (rng.nextInt(3)) {
+                                case 0 -> {
+                                    tmpYX[1]++;
                                 }
+                                case 1 -> {
+                                    tmpYX[2]++;
+                                }
+                                case 2 -> {
+                                    tmpYX[2]--;
+                                }
+                            }
+                        }
+                    }
+                    if (screArr[tmpYX[1]][tmpYX[2]] == 1) {
+                        screArr[tmpYX[1]][tmpYX[2]] = 7;
+                    }
+                }
+                if (screArr[y + 1][x] == 1) {
+                    screArr[y][x] = 0;
+                    screArr[y + 1][x] = 7;
+                }
+                switch (rng.nextInt(2)) {
+                    case 0 -> {
+                        try {
+                            if (screArr[y + 1][x - 1] == 0) {
+                                newArr[y + 1][x - 1] = screArr[y][x];
+                                screArr[y][x] = 0;
+                                tmpYX[0] = y;
+                                tmpYX[1] = x;
+                                //notifySubs();
+                            }
                             } catch (Exception e) {
                                 try {
                                     if (screArr[y + 1][x + 1] == 0) {
@@ -431,7 +458,6 @@ public class Model extends JFrame {
                             }
                         }
                     }
-                }
 
             }
         }
