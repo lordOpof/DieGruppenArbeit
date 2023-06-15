@@ -14,6 +14,7 @@ public class Model extends JFrame {
     int[][][] changeArr; //TODO:nicht wichtig
 
     Vektor[][] vektorArr; //Für Bewegung
+    int[][] explosionArr;
     public int col, row;
     private ArrayList<ModLis> subs = new ArrayList<>(); //Observer-Pattern
     public boolean[][] visited;
@@ -126,10 +127,12 @@ public class Model extends JFrame {
         for (int y = row - 1; y >= 0; y--) {
             for (int x = 0; x < col; x++) {
                 switch (screArr[y][x]) {
-                    case 1, 2, 4 -> logicSand(y, x);
+                    case 1, 2, 4, 7 -> logicSand(y, x);
                     case 3 -> logicStructure3(y, x);
                     case 5 -> logicGas(y, x);
-                    case 11 -> logicWasser(y,x);
+                    case 11 -> logicWasser(y, x);
+                    case 6 -> bewegen(y, x);//Bombe
+                    case 8 -> logicExplosion(y, x);
                     //case 7 nasser Sand
 //TODO: depending on number diffenrent logic
                 }
@@ -162,59 +165,65 @@ public class Model extends JFrame {
                             tmpYX[1] = x;
                             //notifySubs();
                         }
-                    }
+                        if (screArr[y + 1][x] == 11) {
+                            newArr[y + 1][x] = 7;
+                            screArr[y][x] = screArr[y + 1][x];
+                            tmpYX[0] = y;
+                            tmpYX[1] = x;
+                        }
 
-                    switch (rng.nextInt(2)) {
-                        case 0 -> {
-                            try {
-                                if (screArr[y + 1][x - 1] == 0) {
-                                    newArr[y + 1][x - 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
-                                }
-                            } catch (Exception e) {
+                        switch (rng.nextInt(2)) {
+                            case 0 -> {
                                 try {
-                                    if (screArr[y + 1][x + 1] == 0) {
-                                        newArr[y + 1][x + 1] = screArr[y][x];
-                                        screArr[y][x] = 0;
+                                    if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 1) {
+                                        newArr[y + 1][x - 1] = screArr[y][x];
+                                        screArr[y][x] = screArr[y + 1][x - 1];
                                         tmpYX[0] = y;
                                         tmpYX[1] = x;
                                         //notifySubs();
                                     }
-                                } catch (Exception ignored) {
+                                } catch (Exception e) {
+                                    try {
+                                        if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 1) {
+                                            newArr[y + 1][x + 1] = screArr[y][x];
+                                            screArr[y][x] = screArr[y + 1][x + 1];
+                                            tmpYX[0] = y;
+                                            tmpYX[1] = x;
+                                            //notifySubs();
+                                        }
+                                    } catch (Exception ignored) {
+                                    }
                                 }
                             }
-                        }
-                        case 1 -> {
-                            try {
-                                if (screArr[y + 1][x + 1] == 0) {
-                                    newArr[y + 1][x + 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
-                                }
-                            } catch (Exception e) {
+                            case 1 -> {
                                 try {
-
-                                    if (screArr[y + 1][x - 1] == 0) {
-                                        newArr[y + 1][x - 1] = screArr[y][x];
-                                        screArr[y][x] = 0;
+                                    if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 1) {
+                                        newArr[y + 1][x + 1] = screArr[y][x];
+                                        screArr[y][x] = screArr[y + 1][x + 1];
                                         tmpYX[0] = y;
                                         tmpYX[1] = x;
                                         //notifySubs();
                                     }
-                                } catch (Exception ignored) {
+                                } catch (Exception e) {
+                                    try {
+
+                                        if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 1) {
+                                            newArr[y + 1][x - 1] = screArr[y][x];
+                                            screArr[y][x] = screArr[y + 1][x - 1];
+                                            tmpYX[0] = y;
+                                            tmpYX[1] = x;
+                                            //notifySubs();
+                                        }
+                                    } catch (Exception ignored) {
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
 //TODO: OPTIMIZE!!!!!!!
+        }
     }
 
 
@@ -224,7 +233,7 @@ public class Model extends JFrame {
             if (y != 0) {
                 if (screArr[y - 1][x] == 0) {
                     newArr[y - 1][x] = screArr[y][x];
-                    screArr[y][x] = 0;
+                    screArr[y][x] = newArr[y - 1][x];
                     tmpYX[0] = y;
                     tmpYX[1] = x;
                 }
@@ -233,7 +242,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y - 1][x - 1] == 0) {
                                 newArr[y - 1][x - 1] = screArr[y][x];
-                                screArr[y][x] = 0;
+                                screArr[y][x] = screArr[y - 1][x - 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -242,7 +251,7 @@ public class Model extends JFrame {
                             try {
                                 if (screArr[y - 1][x + 1] == 0) {
                                     newArr[y - 1][x + 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
+                                    screArr[y][x] = screArr[y - 1][x + 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
@@ -255,7 +264,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y - 1][x + 1] == 0) {
                                 newArr[y - 1][x + 1] = screArr[y][x];
-                                screArr[y][x] = 0;
+                                screArr[y][x] = screArr[y - 1][x + 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -265,23 +274,22 @@ public class Model extends JFrame {
 
                                 if (screArr[y - 1][x - 1] == 0) {
                                     newArr[y - 1][x - 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
+                                    screArr[y][x] = screArr[y - 1][x - 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
                                 }
                             } catch (Exception ignored) {
                             }
-                            //nur wie Sand
                         }
                     }
-                } //jetzt wie Gas
+                }
                 switch (rng.nextInt(2)) {
                     case 0 -> {
                         try {
                             if (screArr[y][x + 1] == 0) {
                                 newArr[y][x + 1] = screArr[y][x];
-                                screArr[y][x] = 0;
+                                screArr[y][x] = screArr[y][x + 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -290,7 +298,7 @@ public class Model extends JFrame {
                             try {
                                 if (screArr[y][x - 1] == 0) {
                                     newArr[y][x - 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
+                                    screArr[y][x] = screArr[y][x - 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
@@ -303,7 +311,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y][x - 1] == 0) {
                                 newArr[y][x - 1] = screArr[y][x];
-                                screArr[y][x] = 0;
+                                screArr[y][x] = screArr[y][x - 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -312,7 +320,7 @@ public class Model extends JFrame {
                             try {
                                 if (screArr[y][x + 1] == 0) {
                                     newArr[y][x + 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
+                                    screArr[y][x] = screArr[y][x + 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
@@ -345,13 +353,19 @@ public class Model extends JFrame {
                         } else {
                             switch (rng.nextInt(3)) {
                                 case 0 -> {
-                                    tmpYX[1]++;
+                                    if (screArr[tmpYX[1]++][tmpYX[2]] == 1) {
+                                        tmpYX[1]++;
+                                    }
                                 }
                                 case 1 -> {
-                                    tmpYX[2]++;
+                                    if (screArr[tmpYX[1]][tmpYX[2]++] == 1) {
+                                        tmpYX[2]++;
+                                    }
                                 }
                                 case 2 -> {
-                                    tmpYX[2]--;
+                                    if (screArr[tmpYX[1]][tmpYX[2]--] == 1) {
+                                        tmpYX[2]--;
+                                    }
                                 }
                             }
                         }
@@ -536,6 +550,10 @@ public class Model extends JFrame {
             vektorArr[y][x].setx(0);
             vektorArr[y][x].sety(0);
         }
+    }
+
+    public void logicExplosion(int y, int x) {
+
     }
 
     //endregion
