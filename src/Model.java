@@ -130,11 +130,12 @@ public class Model extends JFrame {
                     case 1, 2, 4, 7 -> logicSand(y, x); // 7 nass
                     case 3 -> logicStructure3(y, x);
                     case 5 -> logicGas(y, x);
-                    case 11 -> logicWasser(y, x);
+                    case 11 -> {startTimer();logicWasser(y, x);}
                     case 6 -> bewegen(y, x);//Bombe
                     case 8 -> logicExplosion(y, x);
 //TODO: depending on number diffenrent logic
                 }
+                stopTimer("logic");
             }
         }
         /*if (!isConnected) {
@@ -634,7 +635,15 @@ public class Model extends JFrame {
             sub.onValChange(this);
         }
     }
-
+    long tStart, tStop;
+public void startTimer(){
+        tStart = System.nanoTime();
+}
+public void stopTimer(String loc){
+    tStop= System.nanoTime();
+    long time = TimeUnit.NANOSECONDS.toMicros(tStop-tStart);
+    System.out.println("at "+loc+": "+time);
+}
 }
 
 

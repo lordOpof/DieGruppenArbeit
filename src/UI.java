@@ -132,7 +132,7 @@ public class UI extends JFrame implements ModLis {
 		try {
 			return colorArr[arr[y][x]];
 		} catch (Exception e) {
-			System.out.println("color out of bounds y: "+y+" x: "+x+" color value: "+arr[y][x]);
+			//System.out.println("color out of bounds y: "+y+" x: "+x+" color value: "+arr[y][x]);
 			return Color.darkGray;
 		}
 
@@ -154,6 +154,7 @@ public class UI extends JFrame implements ModLis {
 		//});
 		//uiUpdate.start();
 setArr(m.newArr);
+
 		updateGrid();
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
@@ -162,5 +163,6 @@ setArr(m.newArr);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
+
 	}
 }
