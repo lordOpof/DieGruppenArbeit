@@ -130,12 +130,12 @@ public class Model extends JFrame {
                     case 1, 2, 4, 7 -> logicSand(y, x); // 7 nass
                     case 3 -> logicStructure3(y, x);
                     case 5 -> logicGas(y, x);
-                    case 11 -> {startTimer();logicWasser(y, x);}
+                    case 11 -> logicWasser(y, x);
                     case 6 -> bewegen(y, x);//Bombe
                     case 8 -> logicExplosion(y, x);
 //TODO: depending on number diffenrent logic
                 }
-                stopTimer("logic");
+
             }
         }
         /*if (!isConnected) {
@@ -233,7 +233,7 @@ public class Model extends JFrame {
             if (y != 0) {
                 if (screArr[y - 1][x] == 0) {
                     newArr[y - 1][x] = screArr[y][x];
-                    screArr[y][x] = newArr[y - 1][x];
+                    newArr[y][x] = screArr[y - 1][x];
                     tmpYX[0] = y;
                     tmpYX[1] = x;
                 }
@@ -242,7 +242,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y - 1][x - 1] == 0) {
                                 newArr[y - 1][x - 1] = screArr[y][x];
-                                screArr[y][x] = screArr[y - 1][x - 1];
+                                newArr[y][x] = screArr[y - 1][x - 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -251,7 +251,7 @@ public class Model extends JFrame {
                             try {
                                 if (screArr[y - 1][x + 1] == 0) {
                                     newArr[y - 1][x + 1] = screArr[y][x];
-                                    screArr[y][x] = screArr[y - 1][x + 1];
+                                    newArr[y][x] = screArr[y - 1][x + 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
@@ -264,7 +264,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y - 1][x + 1] == 0) {
                                 newArr[y - 1][x + 1] = screArr[y][x];
-                                screArr[y][x] = screArr[y - 1][x + 1];
+                                newArr[y][x] = screArr[y - 1][x + 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -274,7 +274,7 @@ public class Model extends JFrame {
 
                                 if (screArr[y - 1][x - 1] == 0) {
                                     newArr[y - 1][x - 1] = screArr[y][x];
-                                    screArr[y][x] = screArr[y - 1][x - 1];
+                                    newArr[y][x] = screArr[y - 1][x - 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
@@ -289,7 +289,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y][x + 1] == 0) {
                                 newArr[y][x + 1] = screArr[y][x];
-                                screArr[y][x] = screArr[y][x + 1];
+                                newArr[y][x] = screArr[y][x + 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -298,7 +298,7 @@ public class Model extends JFrame {
                             try {
                                 if (screArr[y][x - 1] == 0) {
                                     newArr[y][x - 1] = screArr[y][x];
-                                    screArr[y][x] = screArr[y][x - 1];
+                                    newArr[y][x] = screArr[y][x - 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
@@ -311,7 +311,7 @@ public class Model extends JFrame {
                         try {
                             if (screArr[y][x - 1] == 0) {
                                 newArr[y][x - 1] = screArr[y][x];
-                                screArr[y][x] = screArr[y][x - 1];
+                                newArr[y][x] = screArr[y][x - 1];
                                 tmpYX[0] = y;
                                 tmpYX[1] = x;
                                 //notifySubs();
@@ -320,7 +320,7 @@ public class Model extends JFrame {
                             try {
                                 if (screArr[y][x + 1] == 0) {
                                     newArr[y][x + 1] = screArr[y][x];
-                                    screArr[y][x] = screArr[y][x + 1];
+                                    newArr[y][x] = screArr[y][x + 1];
                                     tmpYX[0] = y;
                                     tmpYX[1] = x;
                                     //notifySubs();
