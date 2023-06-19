@@ -32,8 +32,10 @@ public class Model extends JFrame {
         blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
         col = screArr[0].length; // NOTE: col = _col; is more optimal
         row = screArr.length;
-        this.vektorBefüllen();
+        /*
+this.vektorBefüllen();
         this.bewegenTester(20, 20, 3, 3);
+*/
     }
 
     public Model() { //REDUNDANT
