@@ -162,11 +162,7 @@ public void switchTo(int y, int x, int yA, int xA){
                 if (screArr[y][x] != 0) {
                     if (y + 1 < row) {
                         if (screArr[y + 1][x] == 0) {
-                            newArr[y + 1][x] = screArr[y][x];
-                            newArr[y][x] = screArr[y + 1][x]; //
-                            tmpYX[0] = y;
-                            tmpYX[1] = x;
-                            //notifySubs();
+                            switchTo(y,x,1,0);
                         }
                         if (screArr[y + 1][x] == 11) {
                             newArr[y + 1][x] = 7;
@@ -179,20 +175,12 @@ public void switchTo(int y, int x, int yA, int xA){
                             case 0 -> {
                                 try {
                                     if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 1) {
-                                        newArr[y + 1][x - 1] = screArr[y][x];
-                                        newArr[y][x] = screArr[y + 1][x - 1]; //
-                                        tmpYX[0] = y;
-                                        tmpYX[1] = x;
-                                        //notifySubs();
+                                        switchTo(y,x,1,-1);
                                     }
                                 } catch (Exception e) {
                                     try {
                                         if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 1) {
-                                            newArr[y + 1][x + 1] = screArr[y][x];
-                                            newArr[y][x] = screArr[y + 1][x + 1]; //
-                                            tmpYX[0] = y;
-                                            tmpYX[1] = x;
-                                            //notifySubs();
+                                            switchTo(y,x,1,1);
                                         }
                                     } catch (Exception ignored) {
                                     }
@@ -201,21 +189,13 @@ public void switchTo(int y, int x, int yA, int xA){
                             case 1 -> {
                                 try {
                                     if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 1) {
-                                        newArr[y + 1][x + 1] = screArr[y][x];
-                                        newArr[y][x] = screArr[y + 1][x + 1]; //
-                                        tmpYX[0] = y;
-                                        tmpYX[1] = x;
-                                        //notifySubs();
+                                        switchTo(y,x,1,1);
                                     }
                                 } catch (Exception e) {
                                     try {
 
                                         if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 1) {
-                                            newArr[y + 1][x - 1] = screArr[y][x];
-                                            newArr[y][x] = screArr[y + 1][x - 1]; //
-                                            tmpYX[0] = y;
-                                            tmpYX[1] = x;
-                                            //notifySubs();
+                                            switchTo(y,x,1,-1);
                                         }
                                     } catch (Exception ignored) {
                                     }
@@ -235,29 +215,18 @@ public void switchTo(int y, int x, int yA, int xA){
         if (screArr[y][x] == 5) {
             if (y != 0) {
                 if (screArr[y - 1][x] == 0) {
-                    newArr[y - 1][x] = screArr[y][x];
-                    newArr[y][x] = screArr[y - 1][x];
-                    tmpYX[0] = y;
-                    tmpYX[1] = x;
+                    switchTo(y,x,-1,0);
                 }
                 switch (rng.nextInt(2)) {
                     case 0 -> {
                         try {
                             if (screArr[y - 1][x - 1] == 0) {
-                                newArr[y - 1][x - 1] = screArr[y][x];
-                                newArr[y][x] = screArr[y - 1][x - 1];
-                                tmpYX[0] = y;
-                                tmpYX[1] = x;
-                                //notifySubs();
+                                switchTo(y,x,-1,-1);
                             }
                         } catch (Exception e) {
                             try {
                                 if (screArr[y - 1][x + 1] == 0) {
-                                    newArr[y - 1][x + 1] = screArr[y][x];
-                                    newArr[y][x] = screArr[y - 1][x + 1];
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                    switchTo(y,x,-1,1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -266,21 +235,13 @@ public void switchTo(int y, int x, int yA, int xA){
                     case 1 -> {
                         try {
                             if (screArr[y - 1][x + 1] == 0) {
-                                newArr[y - 1][x + 1] = screArr[y][x];
-                                newArr[y][x] = screArr[y - 1][x + 1];
-                                tmpYX[0] = y;
-                                tmpYX[1] = x;
-                                //notifySubs();
+                                switchTo(y,x,-1,1);
                             }
                         } catch (Exception e) {
                             try {
 
                                 if (screArr[y - 1][x - 1] == 0) {
-                                    newArr[y - 1][x - 1] = screArr[y][x];
-                                    newArr[y][x] = screArr[y - 1][x - 1];
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                  switchTo(y,x,-1,-1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -291,20 +252,12 @@ public void switchTo(int y, int x, int yA, int xA){
                     case 0 -> {
                         try {
                             if (screArr[y][x + 1] == 0) {
-                                newArr[y][x + 1] = screArr[y][x];
-                                newArr[y][x] = screArr[y][x + 1];
-                                tmpYX[0] = y;
-                                tmpYX[1] = x;
-                                //notifySubs();
+                                switchTo(y,x,0,1);
                             }
                         } catch (Exception e) {
                             try {
                                 if (screArr[y][x - 1] == 0) {
-                                    newArr[y][x - 1] = screArr[y][x];
-                                    newArr[y][x] = screArr[y][x - 1];
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                    switchTo(y,x,0,-1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -313,20 +266,12 @@ public void switchTo(int y, int x, int yA, int xA){
                     case 1 -> {
                         try {
                             if (screArr[y][x - 1] == 0) {
-                                newArr[y][x - 1] = screArr[y][x];
-                                newArr[y][x] = screArr[y][x - 1];
-                                tmpYX[0] = y;
-                                tmpYX[1] = x;
-                                //notifySubs();
+                                switchTo(y,x,0,-1);
                             }
                         } catch (Exception e) {
                             try {
                                 if (screArr[y][x + 1] == 0) {
-                                    newArr[y][x + 1] = screArr[y][x];
-                                    newArr[y][x] = screArr[y][x + 1];
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                    switchTo(y,x,0,1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -340,10 +285,7 @@ public void switchTo(int y, int x, int yA, int xA){
         if (y != col - 1) {
             if (screArr[y][x] == 11) {
                 if (screArr[y + 1][x] == 0 || screArr[y + 1][x] == 5) {
-                    newArr[y + 1][x] = screArr[y][x];
-                    screArr[y][x] = screArr[y + 1][x];
-                    tmpYX[0] = y;
-                    tmpYX[1] = x;
+                    switchTo(y,x,1,0);
                 }
                 if (screArr[y + 1][x] == 7) {
                     screArr[y][x] = 0;
@@ -385,20 +327,12 @@ public void switchTo(int y, int x, int yA, int xA){
                     case 0 -> {
                         try {
                             if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 5) {
-                                newArr[y + 1][x - 1] = screArr[y][x];
-                                screArr[y][x] = screArr[y + 1][x - 1];
-                                tmpYX[0] = y;
-                                tmpYX[1] = x;
-                                //notifySubs();
+                                switchTo(y,x,1,-1);
                             }
                             } catch (Exception e) {
                                 try {
                                     if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 5) {
-                                        newArr[y + 1][x + 1] = screArr[y][x];
-                                        screArr[y][x] = 0;
-                                        tmpYX[0] = y;
-                                        tmpYX[1] = x;
-                                        //notifySubs();
+                                        switchTo(y,x,1,1);
                                     }
                                 } catch (Exception ignored) {
                                 }
@@ -407,21 +341,13 @@ public void switchTo(int y, int x, int yA, int xA){
                         case 1 -> {
                             try {
                                 if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 5) {
-                                    newArr[y + 1][x + 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                    switchTo(y,x,1,1);
                                 }
                             } catch (Exception e) {
                                 try {
 
                                     if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 5) {
-                                        newArr[y + 1][x - 1] = screArr[y][x];
-                                        screArr[y][x] = 0;
-                                        tmpYX[0] = y;
-                                        tmpYX[1] = x;
-                                        //notifySubs();
+                                       switchTo(y,x,1,-1);
                                     }
                                 } catch (Exception ignored) {
                                 }
@@ -433,20 +359,12 @@ public void switchTo(int y, int x, int yA, int xA){
                         case 0 -> {
                             try {
                                 if (screArr[y][x + 1] == 0) {
-                                    newArr[y][x + 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                    switchTo(y,x,0,1);
                                 }
                             } catch (Exception e) {
                                 try {
                                     if (screArr[y][x - 1] == 0) {
-                                        newArr[y][x - 1] = screArr[y][x];
-                                        screArr[y][x] = 0;
-                                        tmpYX[0] = y;
-                                        tmpYX[1] = x;
-                                        //notifySubs();
+                                        switchTo(y,x,0,-1);
                                     }
                                 } catch (Exception ignored) {
                                 }
@@ -455,20 +373,12 @@ public void switchTo(int y, int x, int yA, int xA){
                         case 1 -> {
                             try {
                                 if (screArr[y][x - 1] == 0) {
-                                    newArr[y][x - 1] = screArr[y][x];
-                                    screArr[y][x] = 0;
-                                    tmpYX[0] = y;
-                                    tmpYX[1] = x;
-                                    //notifySubs();
+                                    switchTo(y,x,0,-1);
                                 }
                             } catch (Exception e) {
                                 try {
                                     if (screArr[y][x + 1] == 0) {
-                                        newArr[y][x + 1] = screArr[y][x];
-                                        screArr[y][x] = 0;
-                                        tmpYX[0] = y;
-                                        tmpYX[1] = x;
-                                        //notifySubs();
+                                        switchTo(y,x,0,1);
                                     }
                                 } catch (Exception ignored) {
                                 }
