@@ -12,7 +12,7 @@ public class UI extends JFrame implements ModLis {
 			Color.yellow, Color.gray, Color.black,
 			Color.black, Color.green, Color.pink,
 			Color.red, Color.magenta, Color.orange,
-			Color.WHITE
+			Color.WHITE, Color.blue
 	};
 	public Component[] components;
 	GridBagConstraints gbc;
