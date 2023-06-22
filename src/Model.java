@@ -477,7 +477,8 @@ public void logicSplitterbombe(int y, int x) {
     for(int xh = -1; xh < 2; xh++){
     if(screeArr[y + yh][x + xh] == 0){
     newArr[y + yh][x + xh] = 6;
-    vektorArr[y + yh][x + xh].setx(-xh
+    vektorArr[y + yh][x + xh].setx(xh * 5);
+    vektorArr[y + yh][x + xh].sety(yh * 5);
 }
 }
 }
