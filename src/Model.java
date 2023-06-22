@@ -470,7 +470,18 @@ public void switchTo(int y, int x, int yA, int xA){
     public void logicExplosion(int y, int x) {
 
     }
-
+    
+public void logicSplitterbombe(int y, int x) {
+    newArr[y][x] = 0;
+    for(int yh = -1; yh < 2; yh++){
+    for(int xh = -1; xh < 2; xh++){
+    if(screeArr[y + yh][x + xh] == 0){
+    newArr[y + yh][x + xh] = 6;
+    vektorArr[y + yh][x + xh].setx(-xh
+}
+}
+}
+}
     //endregion
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //region berechnungen für view
