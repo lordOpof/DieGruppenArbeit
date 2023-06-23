@@ -151,8 +151,9 @@ this.vektorBefüllen();
         notifySubs();
     }
 public void switchTo(int y, int x, int yA, int xA){
-                            newArr[y + yA][x+xA] = screArr[y][x];
-                            newArr[y][x] = screArr[y + yA][x+xA];                      
+            int hilf = screArr[y + yA][x + xA];
+newArr[y + yA][x+xA] = screArr[y][x];
+                            newArr[y][x] = hilf;                      
 }
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //region logics
