@@ -322,8 +322,8 @@ public void switchTo(int y, int x, int yA, int xA){
                     }
                 }
                 if (screArr[y + 1][x] == 1) {
-                    screArr[y][x] = 0;
-                    screArr[y + 1][x] = 7;
+                    newArr[y][x] = 0;
+                    newArr[y + 1][x] = 7;
                 }
                 switch (rng.nextInt(2)) {
                     case 0 -> {
@@ -434,7 +434,7 @@ public void switchTo(int y, int x, int yA, int xA){
         int yb = vektorArr[y][x].gety();
         if (screArr[y + yb][x + xb] == 0) {
             newArr[y + yb][x + xb] = screArr[x][y];
-            screArr[y][x] = 0;
+            newArr[y][x] = 0;
             vektorArr[y][x].setx(0);
             vektorArr[y][x].sety(0);
             vektorArr[y + yb][x + xb].setx(yb);
