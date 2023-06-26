@@ -156,11 +156,17 @@ this.vektorBefüllen();
         */
         notifySubs();
     }
+    //explosion rot 13
 
     public void switchTo(int y, int x, int yA, int xA) {
         int hilf = screArr[y + yA][x + xA];
         newArr[y + yA][x + xA] = screArr[y][x];
         newArr[y][x] = hilf;
+    }
+
+    public void switchToRauch(int y, int x, int yA, int xA) {
+        rauchArr[y + yA][x + xA] = rauchArr[y][x];
+        rauchArr[y][x] = 0;
     }
 
     //region logics
@@ -288,7 +294,6 @@ this.vektorBefüllen();
             }
         }
     }
-
 
     public void logicWasser(int y, int x) {
         if (y != col - 1) {
@@ -475,6 +480,16 @@ this.vektorBefüllen();
     }
 
     public void logicExplosion(int y, int x) {
+        if (exArr[y][x] == 1) {
+            for (int ya = -1; ya < 2; ya++) {
+                for (int xa = -1; xa < 2; xa++) {
+                    if (ya != 0 && xa != 0) {
+                        newArr[y + ya][x + xa] = 13;
+                    }
+                }
+            }
+            exArr[y][x]++;
+        }
     }
 
     public void logicRauch(int y, int x) {
@@ -483,18 +498,20 @@ this.vektorBefüllen();
             if (y != 0) {
                 if (screArr[y - 1][x] == 0 || screArr[y - 1][x] == 11) {
                     switchTo(y, x, -1, 0);
-
+                    switchToRauch(y, x, -1, 0);
                 }
                 switch (rng.nextInt(2)) {
                     case 0 -> {
                         try {
                             if (screArr[y - 1][x - 1] == 0) {
                                 switchTo(y, x, -1, -1);
+                                switchToRauch(y, x, -1, -1);
                             }
                         } catch (Exception e) {
                             try {
                                 if (screArr[y - 1][x + 1] == 0) {
                                     switchTo(y, x, -1, 1);
+                                    switchToRauch(y, x, -1, 1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -504,12 +521,14 @@ this.vektorBefüllen();
                         try {
                             if (screArr[y - 1][x + 1] == 0) {
                                 switchTo(y, x, -1, 1);
+                                switchToRauch(y, x, -1, 1);
                             }
                         } catch (Exception e) {
                             try {
 
                                 if (screArr[y - 1][x - 1] == 0) {
                                     switchTo(y, x, -1, -1);
+                                    switchToRauch(y, x, -1, -1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -521,11 +540,13 @@ this.vektorBefüllen();
                         try {
                             if (screArr[y][x + 1] == 0) {
                                 switchTo(y, x, 0, 1);
+                                switchToRauch(y, x, 0, 1);
                             }
                         } catch (Exception e) {
                             try {
                                 if (screArr[y][x - 1] == 0) {
                                     switchTo(y, x, 0, -1);
+                                    switchToRauch(y, x, 0, -1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -535,11 +556,13 @@ this.vektorBefüllen();
                         try {
                             if (screArr[y][x - 1] == 0) {
                                 switchTo(y, x, 0, -1);
+                                switchToRauch(y, x, 0, -1);
                             }
                         } catch (Exception e) {
                             try {
                                 if (screArr[y][x + 1] == 0) {
                                     switchTo(y, x, 0, 1);
+                                    switchToRauch(y, x, 0, 1);
                                 }
                             } catch (Exception ignored) {
                             }
@@ -551,7 +574,6 @@ this.vektorBefüllen();
             newArr[y][x] = 0;
         }
     }
-
 
     public void logicSplitterbombe(int y, int x) {
         newArr[y][x] = 0;
