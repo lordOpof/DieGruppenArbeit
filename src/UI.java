@@ -12,7 +12,7 @@ public class UI extends JFrame implements ModLis {
 			Color.yellow, Color.gray, Color.black,
 			Color.black, Color.green, Color.pink,
 			Color.red, Color.magenta, Color.orange,
-			Color.WHITE, Color.blue
+			Color.WHITE, Color.blue, Color.gray
 	};
 	public Component[] components;
 	GridBagConstraints gbc;
@@ -40,7 +40,8 @@ public class UI extends JFrame implements ModLis {
 		setVisible(true);
 
 		gbc = new GridBagConstraints();
-		gbc.weightx = 0;		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0;
+		gbc.fill = GridBagConstraints.BOTH;
 
 		gbc.weighty = 0;
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -69,7 +70,7 @@ public class UI extends JFrame implements ModLis {
 
 		for (int y = 0; y < row; y++) {
 			for (int x = 0; x < col; x++) {
-				/*JPanel cell = new JPanel();
+                /*JPanel cell = new JPanel();
 				cell.setBackground(colorAtPos(y, x));
 				p.add(cell);*/
 				updateAtPos(y, x);
@@ -78,7 +79,7 @@ public class UI extends JFrame implements ModLis {
 		}
 		p.repaint();
 		p.revalidate();
-		/*Thread t1 = new Thread(() -> {
+        /*Thread t1 = new Thread(() -> {
 			for (int y = 0; y < row/2; y++) {
 				for (int x = 0; x < col; x++) {
 					updateAtPos(y,x);
@@ -137,7 +138,7 @@ public class UI extends JFrame implements ModLis {
 		}
 
 
-			/*int a = (arr[y][x] >> 24) & 255;
+            /*int a = (arr[y][x] >> 24) & 255;
 			int r = (arr[y][x] >> 16)& 255;
 			int g = (arr[y][x] >> 8) & 255;
 			int b =arr[y][x]  & 255;
@@ -148,9 +149,9 @@ public class UI extends JFrame implements ModLis {
 
 	public void onValChange(Model m) {
 		//Thread uiUpdate = new Thread(() -> {
-			//updateAround(m.getTmpYX());
-			//updateGrid();
-			//updateAround(m.tmpYX);
+		//updateAround(m.getTmpYX());
+		//updateGrid();
+		//updateAround(m.tmpYX);
 		//});
 		//uiUpdate.start();
 setArr(m.newArr);
