@@ -215,7 +215,7 @@ newArr[y + yA][x+xA] = screArr[y][x];
 
     public void logicGas(int y, int x) {
 
-        if (screArr[y][x] == 5) {
+
             if (y != 0) {
                 if (screArr[y - 1][x] == 0) {
                     switchTo(y,x,-1,0);
@@ -281,7 +281,7 @@ newArr[y + yA][x+xA] = screArr[y][x];
                         }
                     }
                 }
-            }
+            
         }
     }
     public void logicWasser(int y, int x) {
