@@ -74,7 +74,7 @@ this.vektorBefüllen();
         Thread updateLoop = new Thread(() -> {
             while (true) {
                 logic();
-notifysubs();
+                notifySubs();
             }
         });
         updateLoop.start();
@@ -135,81 +135,81 @@ notifysubs();
 
     //endregion
     public void logic() {
-        screApublic void logic() {
-newArr=screArr;
-    ExecutorService executor = Executors.newFixedThreadPool(4);
+        newArr = screArr;
+        ExecutorService executor = Executors.newFixedThreadPool(4);
 
-    executor.submit(() -> {//q1
-    private int yMax, yMin, xMax, xMin;
-        yMax = (row - 1) / 2;
-        yMin = 0;
-        xMax = col;
-        xMin = col / 2;
-        for (int y = yMax; y >= yMin; y--) {
-            for (int x = xMin; x < xMax; x++) {
-                logicSwitch(y, x);
+        executor.submit(() -> {//q1
+            int yMax, yMin, xMax, xMin;
+            yMax = (row - 1) / 2;
+            yMin = 0;
+            xMax = col;
+            xMin = col / 2;
+            for (int y = yMax; y >= yMin; y--) {
+                for (int x = xMin; x < xMax; x++) {
+                    logicSwitch(y, x);
+                }
             }
-        }
-    });
+        });
 
-    executor.submit(() -> {//q2
-    private int yMax, yMin, xMax, xMin;
-        yMax = (row - 1) / 2;
-        yMin = 0;
-        xMax = col / 2;
-        xMin = 0;
-        for (int y = yMax; y >= yMin; y--) {
-            for (int x = xMin; x < xMax; x++) {
-                logicSwitch(y, x);
+        executor.submit(() -> {//q2
+            int yMax, yMin, xMax, xMin;
+            yMax = (row - 1) / 2;
+            yMin = 0;
+            xMax = col / 2;
+            xMin = 0;
+            for (int y = yMax; y >= yMin; y--) {
+                for (int x = xMin; x < xMax; x++) {
+                    logicSwitch(y, x);
+                }
             }
-        }
-    });
+        });
 
-    executor.submit(() -> {//q3
-    private int yMax, yMin, xMax, xMin;
-        yMax = row - 1;
-        yMin = (row - 1) / 2 + 1;
-        xMax = col / 2;
-        xMin = 0;
-        for (int y = yMax; y >= yMin; y--) {
-            for (int x = xMin; x < xMax; x++) {
-                logicSwitch(y, x);
+        executor.submit(() -> {//q3
+            int yMax, yMin, xMax, xMin;
+            yMax = row - 1;
+            yMin = (row - 1) / 2 + 1;
+            xMax = col / 2;
+            xMin = 0;
+            for (int y = yMax; y >= yMin; y--) {
+                for (int x = xMin; x < xMax; x++) {
+                    logicSwitch(y, x);
+                }
             }
-        }
-    });
+        });
 
-    executor.submit(() -> {//q4
-    private int yMax, yMin, xMax, xMin;
-        yMax = row - 1;
-        yMin = (row - 1) / 2 + 1;
-        xMax = col;
-        xMin = col / 2;
-        for (int y = yMax; y >= yMin; y--) {
-            for (int x = xMin; x < xMax; x++) {
-                logicSwitch(y, x);
+        executor.submit(() -> {//q4
+            int yMax, yMin, xMax, xMin;
+            yMax = row - 1;
+            yMin = (row - 1) / 2 + 1;
+            xMax = col;
+            xMin = col / 2;
+            for (int y = yMax; y >= yMin; y--) {
+                for (int x = xMin; x < xMax; x++) {
+                    logicSwitch(y, x);
+                }
             }
+        });
+
+        executor.shutdown();
+
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    });
-
-    executor.shutdown();
-
-    try {
-        executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
     }
-}
 
-public void logicSwitch(int y, int x) {
-    switch (screArr[y][x]) {
-        case 1, 2, 4, 7 -> logicSand(y, x);
-        case 3 -> logicStructure3(y, x);
-        case 5 -> logicGas(y, x);
-        case 11 -> logicWasser(y, x);
-        case 6 -> bewegen(y, x);
-        case 8 -> logicExplosion(y, x);
+
+    public void logicSwitch(int y, int x) {
+        switch (screArr[y][x]) {
+            case 1, 2, 4, 7 -> logicSand(y, x);
+            case 3 -> logicStructure3(y, x);
+            case 5 -> logicGas(y, x);
+            case 11 -> logicWasser(y, x);
+            case 6 -> bewegen(y, x);
+            case 8 -> logicExplosion(y, x);
+        }
     }
-}
     //explosion rot 13
 
     public void switchTo(int y, int x, int yA, int xA) {
