@@ -174,7 +174,7 @@ setArr(m.newArr);
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
-			Thread.sleep(100);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
