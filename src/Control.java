@@ -19,11 +19,7 @@ public class Control extends JFrame {
 		System.out.println("startet circling");
 		//m.bewegenTester(20, 20, -1, 5);
 		m.circler();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+
 	}
 
 }

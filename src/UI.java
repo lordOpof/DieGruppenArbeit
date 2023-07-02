@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 
 public class UI extends JFrame implements ModLis {
 
-	int[][] arr;
+	int[][] arr = new int[72][128];
 	int row, col;
 
 	Color[] colorArr = {
@@ -50,7 +51,18 @@ public class UI extends JFrame implements ModLis {
 	}
 
 	public void setArr(int[][] _arr) {
-		arr = _arr;
+		/*for (int i = 0; i < _arr.length; i++) {
+			arr[i] = Arrays.copyOf(_arr[i], _arr[i].length);
+		}*/
+
+		if (arr.length != _arr.length || arr[0].length != _arr[0].length) {
+			throw new IllegalArgumentException("Arrays must have the same dimensions.");
+		}
+
+		// Copy values from _arr to arr
+		for (int i = 0; i < arr.length; i++) {
+			System.arraycopy(_arr[i], 0, arr[i], 0, arr[0].length);
+		}
 	}
 
 	public void initGrid() {
@@ -134,6 +146,7 @@ public class UI extends JFrame implements ModLis {
 			return colorArr[arr[y][x]];
 		} catch (Exception e) {
 			//System.out.println("color out of bounds y: "+y+" x: "+x+" color value: "+arr[y][x]);
+			System.out.println("y: "+y+"  x: "+x);
 			return Color.darkGray;
 		}
 

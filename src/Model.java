@@ -140,7 +140,6 @@ public class Model extends JFrame {
         //printArr();
         for (int i = 0; i < row; i++) {
             Arrays.fill(fixArr[i], false);
-            System.out.println(fixArr.length+" "+fixArr[0].length);
         }
         /*
         for (int y = row-1; y >= 0; y--) {
@@ -155,7 +154,7 @@ public class Model extends JFrame {
 
         executor.submit(() -> {//q1
             int yMax, yMin, xMax, xMin;
-            yMax = (row) / 2;
+            yMax = (row-1) / 2;
             yMin = 0;
             xMax = col;
             xMin = col / 2;
@@ -168,7 +167,7 @@ public class Model extends JFrame {
 
         executor.submit(() -> {//q2
             int yMax, yMin, xMax, xMin;
-            yMax = (row) / 2;
+            yMax = (row-1) / 2;
             yMin = 0;
             xMax = col / 2;
             xMin = 0;
@@ -299,7 +298,7 @@ public class Model extends JFrame {
     public void logicGas(int y, int x) {
         //printArr();
         //try {
-        System.out.println("bei fix arr, x= "+x);
+
             if (!fixArr[y][x])
                 if (y != 0) {
                     if (screArr[y - 1][x] == 0 || screArr[y - 1][x] == 11) {
