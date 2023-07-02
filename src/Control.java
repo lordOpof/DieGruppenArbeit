@@ -17,6 +17,7 @@ public class Control extends JFrame {
 		m.fixMap();
 		ui.updateGrid();
 		System.out.println("startet circling");
+		//m.bewegenTester(20, 20, -1, 5);
 		m.circler();
 		try {
 			Thread.sleep(5000);

@@ -3,7 +3,7 @@ public class Vektor {
 
     public Vektor(int y, int x) {
         this.x = x;
-        this.y = y;
+        this.y = y + 1;
     }
 
     public int getx() {
