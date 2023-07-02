@@ -11,9 +11,10 @@ public class UI extends JFrame implements ModLis {
 	Color[] colorArr = {
 			Color.lightGray,
 			Color.yellow, Color.gray, Color.black,
-			Color.black, Color.green, Color.pink,
-			Color.red, Color.magenta, Color.orange,
-			Color.WHITE, Color.blue, Color.gray
+			Color.black, Color.green, Color.black,
+			Color.red, Color.black, Color.orange,
+			Color.WHITE, Color.blue, Color.gray,
+			Color.green, Color.red, Color.gray
 	};
 	public Component[] components;
 	GridBagConstraints gbc;
@@ -30,7 +31,7 @@ public class UI extends JFrame implements ModLis {
 		setTitle("Title");
 		setSize(col*7,row*7);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		p = new JPanel(new GridLayout(row, col));
 		System.out.println(p.getComponents().length);
@@ -51,7 +52,7 @@ public class UI extends JFrame implements ModLis {
 	}
 
 	public void setArr(int[][] _arr) {
-		/*for (int i = 0; i < _arr.length; i++) {
+        /*for (int i = 0; i < _arr.length; i++) {
 			arr[i] = Arrays.copyOf(_arr[i], _arr[i].length);
 		}*/
 
@@ -146,7 +147,7 @@ public class UI extends JFrame implements ModLis {
 			return colorArr[arr[y][x]];
 		} catch (Exception e) {
 			//System.out.println("color out of bounds y: "+y+" x: "+x+" color value: "+arr[y][x]);
-			System.out.println("y: "+y+"  x: "+x);
+			//System.out.println("y: "+y+"  x: "+x);
 			return Color.darkGray;
 		}
 
@@ -173,7 +174,7 @@ setArr(m.newArr);
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
-			Thread.sleep(60);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
