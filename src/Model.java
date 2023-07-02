@@ -69,14 +69,14 @@ public class Model extends JFrame {
     }
 
     public void circler() {
-        Thread updateLoop = new Thread(() -> {
+       // Thread updateLoop = new Thread(() -> {
             while (true) {
                 logic();
                 notifySubs();
-            }
-        });
-        updateLoop.start();
-
+          }
+       // });
+       // updateLoop.start();
+/*
         Thread add2simThread = new Thread(() -> {
             //TODO: sand sandind machen
             boolean tr = true;
@@ -91,6 +91,8 @@ public class Model extends JFrame {
             }
         });
         //add2simThread.start();
+        */
+
     }
 
     public void printArr() {
