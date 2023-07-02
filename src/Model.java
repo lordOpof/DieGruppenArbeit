@@ -28,6 +28,7 @@ public class Model extends JFrame {
     boolean isConnected = false;
     int[][][] blobs;
     int[][] newArr;
+    int[][] streuArr;
     int sixCounter = 0;
     public Random rng = new Random();
 
@@ -39,6 +40,7 @@ public class Model extends JFrame {
         exArr = new int[_row][_col];
         rauchArr = new int[_row][_col];
         fixArr = new boolean[_row][_col];
+        streuArr = new int[_row][_col];
         blobs = new int[_row][_col][2]; //blob make arr to arr holding arr, with blob number and connected status
         col = screArr[0].length; // NOTE: col = _col; is more optimal
         row = screArr.length;
@@ -229,6 +231,7 @@ public class Model extends JFrame {
             case 15 -> logicRauch(y, x);
             case 16 -> logicQuelle(y, x);
             case 17 -> logicGasHahn(y, x);
+            case 18 -> logicQuelleStreu(y, x);
         }
     }
     //explosion rot 14
@@ -795,6 +798,14 @@ public class Model extends JFrame {
     public void logicGasHahn(int y, int x) {
         newArr[y - 1][x] = 5;
     }
+
+    public void logicQuelleStreu(int y, int x) {
+        if (streuArr[y][x] == 20) {
+            newArr[y + 2][x] = 12;
+            streuArr[y][x] = 0;
+        }
+        streuArr[y][x]++;
+    }
     //endregion
 
     //region berechnungen für view
@@ -833,6 +844,7 @@ public class Model extends JFrame {
                     case -8421505 -> screArr[_y][_x] = 20;
                     case -9399618 -> screArr[_y][_x] = 16; // blau unter Wasser blau
                     case -4856291 -> screArr[_y][_x] = 17; // grün unter Gas grün
+                    case -20791 -> screArr[_y][_x] = 18; // rosa unter rot für Streu
                 }
             }
         }
