@@ -142,15 +142,15 @@ public class Model extends JFrame {
             Arrays.fill(fixArr[i], false);
             //System.out.println(fixArr.length+" "+fixArr[0].length);
         }
-        /*
+
         for (int y = row-1; y >= 0; y--) {
             for (int x = 0; x < col; x++) {
                 System.out.println(screArr[0].length);
                 System.out.println("y: "+y+"  x: "+x);
                 logicSwitch(y, x);
             }
-        }*/
-
+        }
+/*
         ExecutorService executor = Executors.newFixedThreadPool(4);
 
         executor.submit(() -> {//q1
@@ -182,7 +182,7 @@ public class Model extends JFrame {
         executor.submit(() -> {//q3
             int yMax, yMin, xMax, xMin;
             yMax = row - 1;
-            yMin = (row - 1) / 2 + 1;
+            yMin = (row) / 2 ;
             xMax = col / 2;
             xMin = 0;
             for (int y = yMax; y >= yMin; y--) {
@@ -195,7 +195,7 @@ public class Model extends JFrame {
         executor.submit(() -> {//q4
             int yMax, yMin, xMax, xMin;
             yMax = row - 1;
-            yMin = (row - 1) / 2 + 1;
+            yMin = (row ) / 2;
             xMax = col;
             xMin = col / 2;
             for (int y = yMax; y >= yMin; y--) {
@@ -212,7 +212,7 @@ public class Model extends JFrame {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+*/
     }
 
     public void logicSwitch(int y, int x) {
@@ -235,6 +235,7 @@ public class Model extends JFrame {
 
     public void switchTo(int y, int x, int yA, int xA) {
         int hilf = screArr[y + yA][x + xA];
+        //if(hilf==newArr[y + yA][x + xA]) return;
         newArr[y + yA][x + xA] = screArr[y][x];
         newArr[y][x] = hilf;
         fixArr[y + yA][x + xA] = true;
