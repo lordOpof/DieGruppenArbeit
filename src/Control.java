@@ -7,7 +7,7 @@ public class Control extends JFrame {
 	public Control(Model _m, UI _ui) {
 		m = _m;
 		ui = _ui;
-		m.setScreArr(m.getColorFromPic("map2.png"));
+		m.setScreArr(m.getColorFromPic("map3.png"));
 		m.addSub(ui);
 		//m.populateArr();
 		ui.setArr(m.getScreArr());

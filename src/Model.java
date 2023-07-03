@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Model extends JFrame {
     public int[][] screArr;
-    int[] tmpYX = new int[2];// speichert YX Werte zwischen
+    int[] tmpYX = new int[3];// speichert YX Werte zwischen
     int[][][] changeArr; //TODO:nicht wichtig
 
     Vektor[][] vektorArr; //Für Bewegung
@@ -71,13 +71,13 @@ public class Model extends JFrame {
     }
 
     public void circler() {
-       // Thread updateLoop = new Thread(() -> {
-            while (true) {
-                logic();
-                notifySubs();
-          }
-       // });
-       // updateLoop.start();
+        // Thread updateLoop = new Thread(() -> {
+        while (true) {
+            logic();
+            notifySubs();
+        }
+        // });
+        // updateLoop.start();
 /*
         Thread add2simThread = new Thread(() -> {
             //TODO: sand sandind machen
@@ -147,10 +147,10 @@ public class Model extends JFrame {
             //System.out.println(fixArr.length+" "+fixArr[0].length);
         }
 
-        for (int y = row-1; y >= 0; y--) {
+        for (int y = row - 1; y >= 0; y--) {
             for (int x = 0; x < col; x++) {
-                System.out.println(screArr[0].length);
-                System.out.println("y: "+y+"  x: "+x);
+                // System.out.println(screArr[0].length);
+                //System.out.println("y: " + y + "  x: " + x);
                 logicSwitch(y, x);
             }
         }
@@ -221,7 +221,7 @@ public class Model extends JFrame {
 
     public void logicSwitch(int y, int x) {
         switch (screArr[y][x]) {
-            case 1,/* 2, 4,*/7 -> logicSand(y, x); //nasser Sand
+            case 1/* 2, 4,*/ -> logicSand(y, x); //nasser Sand
             case 3999 -> logicStructure3(y, x);
             case 5 -> logicGas(y, x);
             case 11 -> logicWasser(y, x);
@@ -232,6 +232,8 @@ public class Model extends JFrame {
             case 16 -> logicQuelle(y, x);
             case 17 -> logicGasHahn(y, x);
             case 18 -> logicQuelleStreu(y, x);
+            case 19 -> logicQuelleBombe(y, x);
+            case 7 -> logicNasserSand(y, x);
         }
     }
     //explosion rot 14
@@ -322,10 +324,26 @@ public class Model extends JFrame {
         }
     }
 
+    public void logicNasserSand(int y, int x) {
+        if (y < row - 1) {
+            switch (rng.nextInt(3)) {
+                case 0 -> {
+                    switchTo(y, x, 1, 0);
+                }
+                case 1 -> {
+                    switchTo(y, x, 1, 1);
+                }
+                case 2 -> {
+                    switchTo(y, x, 1, -1);
+                }
+            }
+        }
+    }
+
     public void logicGas(int y, int x) {
         //printArr();
         //try {
-        System.out.println("bei fix arr, x= " + x);
+        //System.out.println("bei fix arr, x= " + x);
         if (!fixArr[y][x])
             if (y != 0) {
                 if (screArr[y - 1][x] == 0 || screArr[y - 1][x] == 11 || screArr[y - 1][x] == 5) {
@@ -397,113 +415,115 @@ public class Model extends JFrame {
     }
 
     public void logicWasser(int y, int x) {
-        if (y + 1 < row) {
-            if (screArr[y][x] == 11) {
-                if (screArr[y + 1][x] == 0 || screArr[y + 1][x] == 5) {
-                    switchTo(y, x, 1, 0);
-                }
-                if (screArr[y + 1][x] == 7) {
-                    screArr[y][x] = 0;
-                    int hilf = 7;
-                    tmpYX[1] = y + 1;
-                    tmpYX[2] = x;
-                    while (hilf == 7) {
-                        if (screArr[tmpYX[1]][tmpYX[2]] == 1) {
-                            hilf = 1;
-                        } else {
-                            switch (rng.nextInt(3)) {
-                                case 0 -> {
-                                    if (screArr[tmpYX[1]++][tmpYX[2]] == 1) {
-                                        tmpYX[1]++;
+        try {
+            if (y + 1 < row) {
+                if (screArr[y][x] == 11) {
+                    if (screArr[y + 1][x] == 0 || screArr[y + 1][x] == 5) {
+                        switchTo(y, x, 1, 0);
+                    }
+                    if (screArr[y + 1][x] == 7) {
+                        screArr[y][x] = 0;
+                        int hilf = 7;
+                        tmpYX[1] = y + 1;
+                        tmpYX[2] = x;
+                        while (hilf == 7) {
+                            if (screArr[tmpYX[1]][tmpYX[2]] == 1) {
+                                hilf = 1;
+                            } else {
+                                switch (rng.nextInt(3)) {
+                                    case 0 -> {
+                                        if (screArr[tmpYX[1]++][tmpYX[2]] == 1) {
+                                            tmpYX[1]++;
+                                        }
                                     }
-                                }
-                                case 1 -> {
-                                    if (screArr[tmpYX[1]][tmpYX[2]++] == 1) {
-                                        tmpYX[2]++;
+                                    case 1 -> {
+                                        if (screArr[tmpYX[1]][tmpYX[2]++] == 1) {
+                                            tmpYX[2]++;
+                                        }
                                     }
-                                }
-                                case 2 -> {
-                                    if (screArr[tmpYX[1]][tmpYX[2]--] == 1) {
-                                        tmpYX[2]--;
+                                    case 2 -> {
+                                        if (screArr[tmpYX[1]][tmpYX[2]--] == 1) {
+                                            tmpYX[2]--;
+                                        }
                                     }
                                 }
                             }
                         }
+                        if (screArr[tmpYX[1]][tmpYX[2]] == 1) {
+                            screArr[tmpYX[1]][tmpYX[2]] = 7;
+                        }
                     }
-                    if (screArr[tmpYX[1]][tmpYX[2]] == 1) {
-                        screArr[tmpYX[1]][tmpYX[2]] = 7;
+                    if (screArr[y + 1][x] == 1) {
+                        newArr[y][x] = 0;
+                        newArr[y + 1][x] = 7;
                     }
-                }
-                if (screArr[y + 1][x] == 1) {
-                    newArr[y][x] = 0;
-                    newArr[y + 1][x] = 7;
-                }
-                switch (rng.nextInt(2)) {
-                    case 0 -> {
-                        try {
-                            if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 5) {
-                                switchTo(y, x, 1, -1);
+                    switch (rng.nextInt(2)) {
+                        case 0 -> {
+                            try {
+                                if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 5) {
+                                    switchTo(y, x, 1, -1);
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 5) {
+                                        switchTo(y, x, 1, 1);
+                                    }
+                                } catch (Exception ignored) {
+                                }
                             }
-                        } catch (Exception e) {
+                        }
+                        case 1 -> {
                             try {
                                 if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 5) {
                                     switchTo(y, x, 1, 1);
                                 }
-                            } catch (Exception ignored) {
-                            }
-                        }
-                    }
-                    case 1 -> {
-                        try {
-                            if (screArr[y + 1][x + 1] == 0 || screArr[y + 1][x + 1] == 5) {
-                                switchTo(y, x, 1, 1);
-                            }
-                        } catch (Exception e) {
-                            try {
+                            } catch (Exception e) {
+                                try {
 
-                                if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 5) {
-                                    switchTo(y, x, 1, -1);
+                                    if (screArr[y + 1][x - 1] == 0 || screArr[y + 1][x - 1] == 5) {
+                                        switchTo(y, x, 1, -1);
+                                    }
+                                } catch (Exception ignored) {
                                 }
-                            } catch (Exception ignored) {
-                            }
-                            //nur wie Sand
-                        }
-                    }
-                }
-                switch (rng.nextInt(2)) {
-                    case 0 -> {
-                        try {
-                            if (screArr[y][x + 3] == 0) {
-                                switchTo(y, x, 0, 3);
-                            }
-                        } catch (Exception e) {
-                            try {
-                                if (screArr[y][x - 3] == 0) {
-                                    switchTo(y, x, 0, -3);
-                                }
-                            } catch (Exception ignored) {
+                                //nur wie Sand
                             }
                         }
                     }
-                    case 1 -> {
-                        try {
-                            if (screArr[y][x - 3] == 0) {
-                                switchTo(y, x, 0, -3);
-                            }
-                        } catch (Exception e) {
+                    switch (rng.nextInt(2)) {
+                        case 0 -> {
                             try {
                                 if (screArr[y][x + 3] == 0) {
                                     switchTo(y, x, 0, 3);
                                 }
-                            } catch (Exception ignored) {
+                            } catch (Exception e) {
+                                try {
+                                    if (screArr[y][x - 3] == 0) {
+                                        switchTo(y, x, 0, -3);
+                                    }
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }
+                        case 1 -> {
+                            try {
+                                if (screArr[y][x - 3] == 0) {
+                                    switchTo(y, x, 0, -3);
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    if (screArr[y][x + 3] == 0) {
+                                        switchTo(y, x, 0, 3);
+                                    }
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
                     }
+
                 }
-
             }
+        } catch (Exception e) {
         }
-
     }
 
     public void logicStructure3(int y, int x) {
@@ -543,8 +563,8 @@ public class Model extends JFrame {
     }
 
     public void bewegen(int y, int x) {
-        System.out.println("bewegen" + y + " " + x);
-        System.out.println("vektor" + vektorArr[y][x].gety() + " " + vektorArr[y][x].getx());
+        //System.out.println("bewegen" + y + " " + x);
+        //System.out.println("vektor" + vektorArr[y][x].gety() + " " + vektorArr[y][x].getx());
         //System.out.println(fixArr[y][x]);
         if (!fixArr[y][x]) {
             int xb = vektorArr[y][x].getx();
@@ -554,20 +574,20 @@ public class Model extends JFrame {
                     yb--;
                 }
                 vektorArr[y][x].sety(yb);
-                System.out.println("boden");
-            } else if (x + xb >= col) {
+                //System.out.println("boden");
+            } else if (x + xb >= col - 1) {
                 vektorArr[y][x].setx(-xb);
                 //System.out.println("seite");
             } else if (x + xb <= 0) {
-                vektorArr[y][x].setx(-xb);
+                vektorArr[y][x].setx(0);
             } else if (y + yb == row - 1) {
                 vektorArr[y][x] = null;
                 newArr[y + yb][x + xb] = 13;
                 newArr[y][x] = 0;
-                System.out.println("end");
+                //System.out.println("end");
             } else if (y + yb <= 0) {
-                vektorArr[y][x].sety(0);
-            } else if (screArr[y + yb][x + xb] == 0 || screArr[y + yb][x + xb] == 5 || screArr[y + yb][x + xb] == 14 || screArr[y + yb][x + xb] == 15) {
+                vektorArr[y][x].sety(-yb);
+            } else if (screArr[y + yb][x + xb] == 0 || screArr[y + yb][x + xb] == 5 || screArr[y + yb][x + xb] == 14 || screArr[y + yb][x + xb] == 15 || screArr[y + yb][x + xb] == 11) {
                 newArr[y + yb][x + xb] = 6;
                 newArr[y][x] = 0;
                 //System.out.println("regular");
@@ -576,22 +596,19 @@ public class Model extends JFrame {
                 fixArr[y + yb][x + xb] = true;
                 //System.out.println("newVektor " + vektorArr[y + yb][x + xb].gety() + " " + vektorArr[y + yb][x + xb].getx());
                 //System.out.println("next " + (y + yb) + " " + (x + xb));
-            } else if (screArr[y + 1][x] != 0 && screArr[y + 1][x] != 15 && screArr[y + 1][x] != 5 && screArr[y + 1][x] != 14 && screArr[y + 1][x] != 8 && screArr[y + 1][x] != 6) {
-                System.out.println("auflegen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                vektorArr[y][x] = null;
-                newArr[y][x] = 13;
-            } else if (y == 0) {
-                System.out.println("oben");
-                vektorArr[y][x].sety(-yb);
-            } else if (screArr[y][x + 1] != 0 || screArr[y][x - 1] != 0) {
+            } else if (screArr[y + 1][x] == 20 || screArr[y + 1][x] == 1) {
+                //System.out.println("auflegen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                vektorArr[y][x].setx(0);
+                vektorArr[y][x].sety(0);
+            } else if (screArr[y][x + 1] == 20 || screArr[y][x - 1] == 20 || screArr[y][x + 1] == 6 || screArr[y][x - 1] == 6 || screArr[y][x + 1] == 1 || screArr[y][x - 1] == 1 || screArr[y][x + 1] == 8 || screArr[y][x - 1] == 8) {
                 //System.out.println("abpraller");
                 vektorArr[y][x].setx(-xb);
             } else {
-                System.out.println("annähern");
+                //System.out.println("annähern");
                 int hilfx = xb;
                 int hilfy = yb;
                 int error = 0;
-                while (screArr[y + hilfy][x + hilfx] != 0 || error < 15) {
+                while (!(screArr[y + hilfy][x + hilfx] == 0 || screArr[y + hilfy][x + hilfx] == 5 || screArr[y + hilfy][x + hilfx] == 14 || screArr[y + hilfy][x + hilfx] == 15 || screArr[y + hilfy][x + hilfx] == 11 || screArr[y + hilfy][x + hilfx] == 6) || error < 20) {
                     if (hilfx >= 0) {
                         hilfx--;
                     } else {
@@ -604,99 +621,107 @@ public class Model extends JFrame {
                     }
                     error++;
                 }
-                if (error > 13) {
-                    System.out.println("error");
+                if (error > 18) {
+                    vektorArr[y][x].setx((-xb / 2) + 1);
+                    vektorArr[y][x].sety((-yb / 2) + 1);
+                    //System.out.println("error");
+                } else {
+                    //System.out.println(yb + " " + xb + " zu " + hilfy + " " + hilfx);
+                    //System.out.println(screArr[y + hilfy][x + hilfx]);
+                    newArr[y + hilfy][x + hilfx] = 6;
+                    newArr[y][x] = 0;
+                    vektorArr[y + hilfy][x + hilfx] = new Vektor(yb, xb);
+                    vektorArr[y][x] = null;
+                    fixArr[y + hilfy][x + hilfx] = true;
                 }
-                System.out.println(yb + " " + xb + " zu " + hilfy + " " + hilfx);
-                System.out.println(screArr[y + hilfy][x + hilfx]);
-                newArr[y + hilfy][x + hilfx] = 6;
-                newArr[y][x] = 0;
-                vektorArr[y + hilfy][x + hilfx] = new Vektor(yb, xb);
-                vektorArr[y][x] = null;
-                fixArr[y + hilfy][x + hilfx] = true;
             }
         }
         //System.out.println("finished0000000000000000000000000000");
     }
 
     public void logicExplosion(int y, int x) {
-        if (exArr[y][x] == 0) {
-            for (int ya = -1; ya < 2; ya++) {
-                for (int xa = -1; xa < 2; xa++) {
-                    if (!(ya == 0 && xa == 0)) {
-                        newArr[y + ya][x + xa] = 14;
+        if (7 < y && y < col - 4) {
+            if (exArr[y][x] == 0) {
+                for (int ya = -1; ya < 2; ya++) {
+                    for (int xa = -1; xa < 2; xa++) {
+                        if (!(ya == 0 && xa == 0)) {
+                            newArr[y + ya][x + xa] = 14;
+                        }
                     }
                 }
+                for (int b = -2; b < 4; b++) {
+                    newArr[y - 2][x + b] = 6;
+                    vektorArr[y - 2][x + b] = new Vektor(-6, b * 4);
+                }
+                for (int r = -2; r < 4; r++) {
+                    newArr[y - 4][x + r] = 15;
+                    rauchArr[y - 4][x + r] = 20 + rng.nextInt(10);
+                }
             }
-            for (int b = -2; b < 4; b++) {
-                newArr[y - 2][x + b] = 6;
-                vektorArr[y - 2][x + b] = new Vektor(-6, b * 4);
-            }
-            for (int r = -2; r < 4; r++) {
-                newArr[y - 4][x + r] = 15;
-                rauchArr[y - 4][x + r] = 20 + rng.nextInt(10);
-            }
-        }
-        exArr[y][x]++;
-        if (exArr[y][x] == 2) {
-            for (int ya = -2; ya < 3; ya++) {
-                for (int xa = -2; xa < 3; xa++) {
-                    if (!(ya == 0 && xa == 0)) {
-                        newArr[y + ya][x + xa] = 14;
+            exArr[y][x]++;
+            if (exArr[y][x] == 2) {
+                for (int ya = -2; ya < 3; ya++) {
+                    for (int xa = -2; xa < 3; xa++) {
+                        if (!(ya == 0 && xa == 0)) {
+                            newArr[y + ya][x + xa] = 14;
+                        }
                     }
                 }
+                newArr[y - 2][x - 2] = 0;
+                newArr[y - 2][x + 2] = 0;
+                newArr[y + 2][x - 2] = 0;
+                newArr[y + 2][x + 2] = 0;
+                for (int b = -3; b < 5; b++) {
+                    newArr[y - 3][x + b] = 6;
+                    vektorArr[y - 3][x + b] = new Vektor(-6, b * 4);
+                }
+                for (int r = -4; r < 5; r++) {
+                    newArr[y - 5][x + r] = 15;
+                    rauchArr[y - 5][x + r] = 20 + rng.nextInt(10);
+                }
             }
-            newArr[y - 2][x - 2] = 0;
-            newArr[y - 2][x + 2] = 0;
-            newArr[y + 2][x - 2] = 0;
-            newArr[y + 2][x + 2] = 0;
-            for (int b = -3; b < 5; b++) {
-                newArr[y - 3][x + b] = 6;
-                vektorArr[y - 3][x + b] = new Vektor(-6, b * 4);
-            }
-            for (int r = -4; r < 5; r++) {
-                newArr[y - 5][x + r] = 15;
-                rauchArr[y - 5][x + r] = 20 + rng.nextInt(10);
-            }
-        }
-        if (exArr[y][x] == 4) {
-            for (int ya = -2; ya < 3; ya++) {
-                for (int xa = -2; xa < 3; xa++) {
-                    if (!(ya == 0 && xa == 0)) {
-                        newArr[y + ya][x + xa] = 14;
+            if (exArr[y][x] == 4) {
+                for (int ya = -2; ya < 3; ya++) {
+                    for (int xa = -2; xa < 3; xa++) {
+                        if (!(ya == 0 && xa == 0)) {
+                            newArr[y + ya][x + xa] = 14;
+                        }
                     }
                 }
-            }
-            newArr[y - 3][x - 1] = 14;
-            newArr[y - 3][x] = 14;
-            newArr[y - 3][x + 1] = 14;
-            newArr[y + 3][x - 1] = 14;
-            newArr[y + 3][x] = 14;
-            newArr[y + 3][x + 1] = 14;
-            newArr[y + 1][x - 3] = 14;
-            newArr[y][x - 3] = 14;
-            newArr[y - 1][x - 3] = 14;
-            newArr[y + 1][x + 3] = 14;
-            newArr[y][x + 3] = 14;
-            newArr[y - 1][x + 3] = 14;
-            for (int b = -3; b < 5; b++) {
-                newArr[y - 4][x + b] = 6;
-                vektorArr[y - 4][x + b] = new Vektor(-6, b * 4);
-            }
-            for (int r = -6; r < 7; r++) {
-                newArr[y - 6][x + r] = 15;
-                rauchArr[y - 6][x + r] = 20 + rng.nextInt(10);
-            }
-        }
-        if (exArr[y][x] == 7) {
-            for (int ya = -3; ya < 4; ya++) {
-                for (int xa = -3; xa < 4; xa++) {
-                    if (screArr[y + ya][x + xa] == 14)
-                        newArr[y + ya][x + xa] = 15;
+                newArr[y - 3][x - 1] = 14;
+                newArr[y - 3][x] = 14;
+                newArr[y - 3][x + 1] = 14;
+                newArr[y + 3][x - 1] = 14;
+                newArr[y + 3][x] = 14;
+                newArr[y + 3][x + 1] = 14;
+                newArr[y + 1][x - 3] = 14;
+                newArr[y][x - 3] = 14;
+                newArr[y - 1][x - 3] = 14;
+                newArr[y + 1][x + 3] = 14;
+                newArr[y][x + 3] = 14;
+                newArr[y - 1][x + 3] = 14;
+                for (int b = -3; b < 5; b++) {
+                    newArr[y - 4][x + b] = 6;
+                    vektorArr[y - 4][x + b] = new Vektor(-6, b * 4);
+                }
+                for (int r = -6; r < 7; r++) {
+                    newArr[y - 6][x + r] = 15;
+                    rauchArr[y - 6][x + r] = 20 + rng.nextInt(10);
                 }
             }
-            exArr[y][x] = 0;
-            newArr[y][x] = 15;
+            if (exArr[y][x] == 7) {
+                for (int ya = -3; ya < 4; ya++) {
+                    for (int xa = -3; xa < 4; xa++) {
+                        if (screArr[y + ya][x + xa] == 14)
+                            switch (rng.nextInt(2)) {
+                                case 0 -> newArr[y + ya][x + xa] = 15;
+                                case 1 -> newArr[y + ya][x + xa] = 0;
+                            }
+                    }
+                }
+                exArr[y][x] = 0;
+                newArr[y][x] = 15;
+            }
         }
     }
 
@@ -786,6 +811,7 @@ public class Model extends JFrame {
         for (int yh = -1; yh < 2; yh++) {
             for (int xh = -1; xh < 2; xh++) {
                 newArr[y + yh][x + xh] = 6;
+                vektorArr[y + yh][x + xh] = null;
                 vektorArr[y + yh][x + xh] = new Vektor(yh * 5, xh * 5);
             }
         }
@@ -802,6 +828,16 @@ public class Model extends JFrame {
     public void logicQuelleStreu(int y, int x) {
         if (streuArr[y][x] == 20) {
             newArr[y + 2][x] = 12;
+            streuArr[y][x] = 0;
+        }
+        streuArr[y][x]++;
+    }
+
+    public void logicQuelleBombe(int y, int x) {
+        if (y > col - 9) {
+            newArr[y][x] = 0;
+        } else if (streuArr[y][x] == 30) {
+            newArr[y + 7][x + 1] = 8;
             streuArr[y][x] = 0;
         }
         streuArr[y][x]++;
@@ -845,6 +881,7 @@ public class Model extends JFrame {
                     case -9399618 -> screArr[_y][_x] = 16; // blau unter Wasser blau
                     case -4856291 -> screArr[_y][_x] = 17; // grün unter Gas grün
                     case -20791 -> screArr[_y][_x] = 18; // rosa unter rot für Streu
+                    case -14066 -> screArr[_y][_x] = 19; // gold unter orange Bombe
                 }
             }
         }
@@ -908,6 +945,39 @@ public class Model extends JFrame {
     //endregion
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

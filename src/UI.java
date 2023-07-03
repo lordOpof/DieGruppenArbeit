@@ -12,9 +12,9 @@ public class UI extends JFrame implements ModLis {
 			Color.lightGray,
 			Color.yellow, Color.gray, Color.black,
 			Color.black, Color.green, Color.black,
-			Color.red, Color.black, Color.orange,
+			Color.orange, Color.black, Color.orange,
 			Color.WHITE, Color.blue, Color.gray,
-			Color.green, Color.red, Color.gray
+			Color.black, Color.red, Color.gray
 	};
 	public Component[] components;
 	GridBagConstraints gbc;
@@ -31,7 +31,6 @@ public class UI extends JFrame implements ModLis {
 		setTitle("Title");
 		setSize(col*7,row*7);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		p = new JPanel(new GridLayout(row, col));
 		System.out.println(p.getComponents().length);
@@ -174,7 +173,7 @@ setArr(m.newArr);
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
-			Thread.sleep(50);
+			Thread.sleep(70);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
