@@ -208,21 +208,21 @@ public void addCompLis(){
 
 			int kC = e.getKeyCode();
 			switch (keyP){
-				case "W" -> {
+				case "W" -> { //Wasser bzw blau
 					coCo = 11;
 				}
-				case "S" -> {
+				case "S" -> { //sand, gelb
 					coCo = 1;
 				}
-				case "G" -> {
+				case "G" -> { //gas, grün
 					coCo = 5;
 				}
-				case "B" -> {
+				case "B" -> {//bombe, hellgrau
 					coCo = 12;
 				}
-				case "Space" -> {
+				case "Space" -> { //pausiert
 					m.draw=true;
-				}case "R" -> {
+				}case "P" -> { //play
 					m.draw=false;
 				}
 			}
