@@ -57,7 +57,7 @@ public class UI extends JFrame implements ModLis {
 		gbc.weighty = 0;
 		gbc.insets = new Insets(0, 0, 0, 0);
 
-		System.out.println(components[127].getX());
+		new Legende(this);
 	}
 
 	public void addMListenerToPanels(Component[] arr) {
@@ -227,7 +227,6 @@ public void addCompLis(){
 				}
 			}
 			System.out.println(coCo);
-
 		}
 	});
 }
