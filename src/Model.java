@@ -247,6 +247,7 @@ public class Model extends JFrame {
 			case 18 -> logicQuelleStreu(y, x);
 			case 19 -> logicQuelleBombe(y, x);
 			case 7 -> logicNasserSand(y, x);
+			case 21 -> logicQuelleSand(y, x);
 		}
 	}
 	//explosion rot 14
@@ -831,19 +832,31 @@ public class Model extends JFrame {
 	}
 
 	public void logicQuelle(int y, int x) {
-		newArr[y + 1][x] = 11;
+		if (y == col - 2) {
+			newArr[y][x] = 0;
+		} else {
+			newArr[y + 1][x] = 11;
+		}
 	}
 
 	public void logicGasHahn(int y, int x) {
-		newArr[y - 1][x] = 5;
+		if (y <= 2) {
+			newArr[y][x] = 0;
+		} else {
+			newArr[y - 1][x] = 5;
+		}
 	}
 
 	public void logicQuelleStreu(int y, int x) {
-		if (streuArr[y][x] == 20) {
-			newArr[y + 2][x] = 12;
-			streuArr[y][x] = 0;
+		if (y == col - 3) {
+			newArr[y][x] = 0;
+		} else {
+			if (streuArr[y][x] == 20) {
+				newArr[y + 2][x] = 12;
+				streuArr[y][x] = 0;
+			}
+			streuArr[y][x]++;
 		}
-		streuArr[y][x]++;
 	}
 
 	public void logicQuelleBombe(int y, int x) {
@@ -854,6 +867,10 @@ public class Model extends JFrame {
 			streuArr[y][x] = 0;
 		}
 		streuArr[y][x]++;
+	}
+
+	public void logicQuelleSand(int y, int x) {
+		newArr[y + 1][x] = 1;
 	}
 	//endregion
 
@@ -960,5 +977,6 @@ public class Model extends JFrame {
 		newArr[y][x] = coCo;
 	}
 }
+//endregion
 
 
