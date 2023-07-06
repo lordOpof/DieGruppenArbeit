@@ -1,13 +1,17 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 
 public class UI extends JFrame implements ModLis {
 
 	int[][] arr = new int[72][128];
+	int coCo=1;
 	int row, col;
-
+	Model m;
 	Color[] colorArr = {
 			Color.lightGray,
 			Color.yellow, Color.gray, Color.black,
@@ -29,16 +33,22 @@ public class UI extends JFrame implements ModLis {
 
 
 		setTitle("Title");
-		setSize(col*7,row*7);
+		//setSize(col*7,row*7);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		getContentPane().setLayout(new BorderLayout());
 		p = new JPanel(new GridLayout(row, col));
 		System.out.println(p.getComponents().length);
 		initGrid();
 		components = p.getComponents();
+
 		System.out.println(p.getComponents().length);
-		add(p);
+		//add(p);
+		getContentPane().add(p, BorderLayout.CENTER);
+		pack();
 		setVisible(true);
+		isFocusable();
+		setResizable(false);
+
 
 		gbc = new GridBagConstraints();
 		gbc.weightx = 0;
@@ -47,7 +57,13 @@ public class UI extends JFrame implements ModLis {
 		gbc.weighty = 0;
 		gbc.insets = new Insets(0, 0, 0, 0);
 
+		new Legende(this);
+	}
 
+	public void addMListenerToPanels(Component[] arr) {
+		for (Component comp : arr) {
+			comp.addMouseListener(new CustomMouseListener(comp, m, this));
+		}
 	}
 
 	public void setArr(int[][] _arr) {
@@ -167,16 +183,51 @@ public class UI extends JFrame implements ModLis {
 		//updateAround(m.tmpYX);
 		//});
 		//uiUpdate.start();
-setArr(m.newArr);
+		setArr(m.newArr);
 
 		updateGrid();
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
-			Thread.sleep(70);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
 
 	}
+
+	public void addModel(Model _m) {
+		m = _m;
+	}
+public void addCompLis(){
+	addMListenerToPanels(components);
+	this.addKeyListener(new KeyAdapter() {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			String keyP = KeyEvent.getKeyText(e.getKeyCode());
+
+			int kC = e.getKeyCode();
+			switch (keyP){
+				case "W" -> { //Wasser bzw blau
+					coCo = 11;
+				}
+				case "S" -> { //sand, gelb
+					coCo = 1;
+				}
+				case "G" -> { //gas, grün
+					coCo = 5;
+				}
+				case "B" -> {//bombe, hellgrau
+					coCo = 12;
+				}
+				case "Space" -> { //pausiert
+					m.draw=true;
+				}case "P" -> { //play
+					m.draw=false;
+				}
+			}
+			System.out.println(coCo);
+		}
+	});
+}
 }
