@@ -247,6 +247,7 @@ public class Model extends JFrame {
 			case 32 -> logicQuelleStreu(y, x);
 			case 28 -> logicQuelleBombe(y, x);
 			case 7 -> logicNasserSand(y, x);
+			case 21 -> logicQuelleSand(y, x);
 		}
 	}
 	//explosion rot 14
@@ -341,13 +342,19 @@ public class Model extends JFrame {
 		if (y < row - 1) {
 			switch (rng.nextInt(3)) {
 				case 0 -> {
-					switchTo(y, x, 1, 0);
+					if(screArr[y + 1][x] == 1) {
+						switchTo(y, x, 1, 0);
+					}
 				}
 				case 1 -> {
-					switchTo(y, x, 1, 1);
+					if (screArr[y + 1][x + 1] == 1) {
+						switchTo(y, x, 1, 1);
+					}
 				}
 				case 2 -> {
-					switchTo(y, x, 1, -1);
+					if (screArr[y + 1][x - 1] == 1) {
+						switchTo(y, x, 1, -1);
+					}
 				}
 			}
 		}
@@ -831,11 +838,16 @@ public class Model extends JFrame {
 	}
 
 	public void logicQuelle(int y, int x) {
-		newArr[y + 1][x] = 11;
+		if(y>=col-2) newArr[y][x]=0;
+		else newArr[y + 1][x] = 11;
 	}
-
+	public void logicQuelleSand(int y, int x){
+		if(y>=col-2) newArr[y][x]=0;
+		else newArr[y+1][x]=1;
+	}
 	public void logicGasHahn(int y, int x) {
-		newArr[y - 1][x] = 5;
+		if(y<=2) newArr[y][x]=0;
+		else newArr[y - 1][x] = 5;
 	}
 
 	public void logicQuelleStreu(int y, int x) {
@@ -895,6 +907,8 @@ public class Model extends JFrame {
 					case -4856291 -> screArr[_y][_x] = 25; // grün unter Gas grün 17
 					case -20791 -> screArr[_y][_x] = 32; // rosa unter rot für Streu 18
 					case -14066 -> screArr[_y][_x] = 28; // gold unter orange Bombe 19
+
+					//die langen zahlen sind im argb int format
 				}
 			}
 		}

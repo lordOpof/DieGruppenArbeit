@@ -190,7 +190,7 @@ public class UI extends JFrame implements ModLis {
 		//updateAround(m.tmpYX);
 		// TODO: fine tune for a good speed
 		try {
-			Thread.sleep(50);
+			Thread.sleep(40);
 		} catch (InterruptedException e) {
 			System.out.println("couldn't sleep");
 		}
@@ -222,6 +222,15 @@ public class UI extends JFrame implements ModLis {
 				}
 				case "B" -> {//bombe, hellgrau
 					coCo = 8;
+				}
+				case "F" -> {//fest
+					coCo = 20;
+				}
+				case "L" -> {//delete
+					coCo = 0;
+				}
+				case "E" -> {//bombe, hellgrau
+					coCo = 12;
 				}
 				case "Space" -> { //pausiert
 					m.draw = true;

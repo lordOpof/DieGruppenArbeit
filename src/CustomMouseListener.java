@@ -40,8 +40,7 @@ public class CustomMouseListener  extends MouseAdapter {
 		//if (!m.draw)return;
 		coCo=ui.coCo;
 		capsLock= ui.capsLock;
-		System.out.println(capsLock);
-		if (capsLock == -1) {
+		if (capsLock == 1) {
 			coCo += 20;
 		}
 		int modifiers = e.getModifiersEx();

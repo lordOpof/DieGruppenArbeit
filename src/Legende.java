@@ -21,7 +21,7 @@ public class Legende extends JFrame {
 
 		Point relativeFrameLocation = relativeFrame.getLocation();
 		setLocation(
-				relativeFrameLocation.x+250,
+				relativeFrameLocation.x+200,
 				relativeFrameLocation.y + relativeFrame.getHeight()-5
 		);
 
