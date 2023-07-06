@@ -58,11 +58,12 @@ public class UI extends JFrame implements ModLis {
 		gbc.insets = new Insets(0, 0, 0, 0);
 
 		new Legende(this);
+		isFocused();
 	}
 
 	public void addMListenerToPanels(Component[] arr) {
 		for (Component comp : arr) {
-			comp.addMouseListener(new CustomMouseListener(comp, m, this));
+			comp.addMouseListener(new CustomMouseListener(comp, m, this, capsLock));
 		}
 	}
 
@@ -199,12 +200,14 @@ public class UI extends JFrame implements ModLis {
 	public void addModel(Model _m) {
 		m = _m;
 	}
-public void addCompLis(){
+	int capsLock = -1;
+	public void addCompLis(){
 	addMListenerToPanels(components);
 	this.addKeyListener(new KeyAdapter() {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			String keyP = KeyEvent.getKeyText(e.getKeyCode());
+			System.out.print(keyP);
 
 			int kC = e.getKeyCode();
 			switch (keyP){
@@ -218,15 +221,18 @@ public void addCompLis(){
 					coCo = 5;
 				}
 				case "B" -> {//bombe, hellgrau
-					coCo = 12;
+					coCo = 8;
 				}
 				case "Space" -> { //pausiert
-					m.draw=true;
-				}case "P" -> { //play
-					m.draw=false;
+					m.draw = true;
+				}
+				case "P" -> { //play
+					m.draw = false;
+				}
+				case "Caps Lock" -> { //spawner
+				capsLock=capsLock*-1;
 				}
 			}
-			System.out.println(coCo);
 		}
 	});
 }

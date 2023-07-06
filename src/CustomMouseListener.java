@@ -9,14 +9,15 @@ public class CustomMouseListener  extends MouseAdapter {
 	Component comp;
 	Model m;
 	UI ui;
-	int coCo;
+	int coCo, capsLock;
 	boolean mouseDown=false;
-	public CustomMouseListener(Component _comp, Model _m, UI _ui) {
+	public CustomMouseListener(Component _comp, Model _m, UI _ui, int _capsLock) {
 		//y=_y;
 		//x=_x;
 		comp = _comp;
 		m=_m;
-ui=_ui;
+		ui=_ui;
+		capsLock=_capsLock;
 	}
 
 	@Override
@@ -38,9 +39,14 @@ ui=_ui;
 	public void mouseEntered(MouseEvent e) {
 		//if (!m.draw)return;
 		coCo=ui.coCo;
+		capsLock= ui.capsLock;
+		System.out.println(capsLock);
+		if (capsLock == -1) {
+			coCo += 20;
+		}
 		int modifiers = e.getModifiersEx();
 		if ((modifiers & InputEvent.BUTTON1_DOWN_MASK) != 0) {
-		System.out.println(comp.getX() + " + " + comp.getY());
+		//System.out.println(comp.getX() + " + " + comp.getY());
 		m.setPoint(comp.getY() / 10, comp.getX() / 10, coCo);
 		}
 	}

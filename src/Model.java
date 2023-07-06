@@ -242,10 +242,10 @@ public class Model extends JFrame {
 			case 8 -> logicExplosion(y, x);
 			case 12 -> logicSplitterbombe(y, x);
 			case 15 -> logicRauch(y, x);
-			case 16 -> logicQuelle(y, x);
-			case 17 -> logicGasHahn(y, x);
-			case 18 -> logicQuelleStreu(y, x);
-			case 19 -> logicQuelleBombe(y, x);
+			case 31 -> logicQuelle(y, x);
+			case 25 -> logicGasHahn(y, x);
+			case 32 -> logicQuelleStreu(y, x);
+			case 28 -> logicQuelleBombe(y, x);
 			case 7 -> logicNasserSand(y, x);
 		}
 	}
@@ -891,10 +891,10 @@ public class Model extends JFrame {
 					case -1237980 -> screArr[_y][_x] = 12; //rot
 					case -32985 -> screArr[_y][_x] = 8; //orange
 					case -8421505 -> screArr[_y][_x] = 20;
-					case -9399618 -> screArr[_y][_x] = 16; // blau unter Wasser blau
-					case -4856291 -> screArr[_y][_x] = 17; // grün unter Gas grün
-					case -20791 -> screArr[_y][_x] = 18; // rosa unter rot für Streu
-					case -14066 -> screArr[_y][_x] = 19; // gold unter orange Bombe
+					case -9399618 -> screArr[_y][_x] = 31; // blau unter Wasser blau 16
+					case -4856291 -> screArr[_y][_x] = 25; // grün unter Gas grün 17
+					case -20791 -> screArr[_y][_x] = 32; // rosa unter rot für Streu 18
+					case -14066 -> screArr[_y][_x] = 28; // gold unter orange Bombe 19
 				}
 			}
 		}
